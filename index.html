@@ -524,13 +524,13 @@
     const questions = [
       {
         icon: "⏰",
-        text: "Di rumah, apakah sudah ada aturan durasi harian penggunaan gadget untuk anak (misalnya 1–2 jam per hari)?",
+        text: "Di rumah, apakah sudah ada aturan durasi harian penggunaan gawai untuk anak (misalnya 1–2 jam per hari)?",
         area: "Waktu & durasi",
         options: [
           {
             text: "Belum ada aturan sama sekali, berjalan saja apa adanya.",
             correct: false,
-            feedback: "Tanpa aturan dasar, anak cenderung memakai gadget berlebihan dan sulit dikendalikan."
+            feedback: "Tanpa aturan dasar, anak cenderung memakai gawai berlebihan dan sulit dikendalikan."
           },
           {
             text: "Ada aturan, tetapi sering dilanggar baik oleh anak maupun orangtua.",
@@ -733,7 +733,7 @@
           {
             text: "Sesekali menanyakan, biasanya jika ada berita viral atau kejadian tertentu.",
             correct: false,
-            feedback: "Ini sudah baik. Akan lebih kuat jika menjadi obrolan rutin sehingga anak terbiasa bercerita.",
+            feedback: "Ini sudah baik. Akan lebih kuat jika menjadi obrolan rutin sehingga anak terbiasa bercerita."
           },
           {
             text: "Sering mengajak mengobrol santai tentang pengalaman digital anak dengan bahasa yang tidak menghakimi.",
@@ -744,7 +744,6 @@
       }
     ];
 
-    // Tips per level (minimal 10 kalimat per kategori)
     const levelTips = {
       1: [
         "Mulailah dengan satu aturan kecil yang mudah dilakukan, misalnya menulis durasi maksimal gawai per hari dan menempelkannya di kulkas.",
@@ -753,7 +752,7 @@
         "Luangkan waktu 5–10 menit setiap hari hanya untuk mendengarkan cerita anak tanpa gawai di tangan Anda.",
         "Pelajari satu fitur keamanan sederhana terlebih dahulu, misalnya pengaturan batas waktu di ponsel atau tablet.",
         "Jangan menyalahkan diri sendiri; lihat hasil kuis ini sebagai titik mulai, bukan vonis akhir.",
-        "Jika anak marah ketika aturan baru diterapkan, validasi perasaannya dengan kalimat seperti, “Ibu/Bapak tahu kamu kecewa, tapi kita sedang belajar bersama.”",
+        "Jika anak marah ketika aturan baru diterapkan, validasi perasaannya dengan kalimat seperti, “Ibu/Bapak tahu kamu kecewa, tetapi kita sedang belajar bersama.”",
         "Cari satu aktivitas pengganti yang menyenangkan, seperti board game, menggambar, atau memasak sederhana bersama anak.",
         "Catat perubahan kecil yang berhasil Anda jalankan dalam seminggu, lalu rayakan keberhasilan tersebut bersama anak.",
         "Jika terasa sulit, Anda boleh meminta dukungan pasangan, keluarga, atau komunitas orangtua lain sehingga tidak merasa sendirian."
@@ -796,7 +795,6 @@
       ]
     };
 
-    // Tips khusus berdasarkan area yang lemah (per pertanyaan)
     const areaTips = {
       "Waktu & durasi": [
         "Mulailah dengan membuat jadwal harian penggunaan gawai yang realistis dan disepakati bersama anak.",
@@ -843,6 +841,7 @@
     let currentQuestionIndex = 0;
     let score = 0;
     let weakAreas = [];
+    let currentShuffledOptions = [];
 
     const progressTextEl = document.getElementById("progressText");
     const progressFillEl = document.getElementById("progressFill");
@@ -895,7 +894,17 @@
           ? "Lihat hasil refleksi"
           : "Pertanyaan berikutnya";
 
-      current.options.forEach((option, index) => {
+      // salin dan acak opsi, supaya jawaban benar tidak selalu di posisi yang sama
+      currentShuffledOptions = [...current.options];
+      for (let i = currentShuffledOptions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [currentShuffledOptions[i], currentShuffledOptions[j]] = [
+          currentShuffledOptions[j],
+          currentShuffledOptions[i],
+        ];
+      }
+
+      currentShuffledOptions.forEach((option, index) => {
         const btn = document.createElement("button");
         btn.className = "option-btn";
 
@@ -923,7 +932,7 @@
 
       optionButtons.forEach((btn, index) => {
         btn.classList.add("disabled");
-        const isCorrect = current.options[index].correct;
+        const isCorrect = currentShuffledOptions[index].correct;
         if (isCorrect) {
           btn.classList.add("correct");
         }
@@ -932,7 +941,7 @@
         }
       });
 
-      const selectedOption = current.options[selectedIndex];
+      const selectedOption = currentShuffledOptions[selectedIndex];
       if (selectedOption.correct) {
         score++;
       } else {
@@ -946,11 +955,13 @@
     function showResult() {
       optionsEl.innerHTML = "";
       feedbackEl.textContent = "";
-      questionTextEl.textContent = "Refleksi Penggunaan Gadget di Keluarga";
+      questionTextEl.textContent = "Refleksi Penggunaan Gawai di Keluarga";
       questionIconEl.textContent = "🧩";
 
       const total = questions.length;
-      resultEl.textContent = `Anda memilih jawaban yang paling mendukung pengasuhan digital sehat pada ${score} dari ${total} situasi. Terima kasih sudah mau merefleksikan pola di rumah.`;
+      resultEl.textContent =
+        `Anda memilih jawaban yang paling mendukung pengasuhan digital sehat pada ${score} dari ${total} situasi. ` +
+        `Terima kasih sudah mau merefleksikan pola di rumah.`;
 
       let level, title, body, emoji, levelClass;
       const percentage = (score / total) * 100;
@@ -985,13 +996,11 @@
           "Luar biasa. Hasil ini menunjukkan bahwa Anda sangat reflektif dan cukup konsisten dalam mengatur gawai di rumah. Anda layak disebut sebagai teladan dalam pengasuhan digital yang seimbang dan penuh kehangatan. Tetaplah rendah hati dan fleksibel, karena dunia digital akan terus berubah dan selalu ada hal baru untuk dipelajari.";
       }
 
-      // Level meter highlight
       resetLevelMeter();
       if (level >= 1 && level <= 4) {
         steps[level - 1].classList.add("active");
       }
 
-      // Kartu hasil visual
       const card = document.createElement("div");
       card.className = `result-card ${levelClass}`;
 
@@ -1017,7 +1026,6 @@
       resultVisualEl.innerHTML = "";
       resultVisualEl.appendChild(card);
 
-      // Tips utama berdasarkan level
       const tipsTitle = document.createElement("div");
       tipsTitle.className = "tips-section-title";
       tipsTitle.textContent = "Tips langkah kecil yang bisa Anda coba berdasarkan hasil ini:";
@@ -1035,7 +1043,6 @@
       resultVisualEl.appendChild(tipsTitle);
       resultVisualEl.appendChild(tipsUl);
 
-      // Tips spesifik berdasarkan area yang lemah
       const uniqueWeakAreas = Array.from(new Set(weakAreas));
       if (uniqueWeakAreas.length > 0) {
         const areaSection = document.createElement("div");
@@ -1061,7 +1068,6 @@
         resultVisualEl.appendChild(areaSection);
       }
 
-      // Siapkan teks refleksi untuk dibagikan
       const levelTipsText = levelTipsList.map(t => `- ${t}`).join("\n");
       let areaText = "";
       if (uniqueWeakAreas.length > 0) {
@@ -1120,7 +1126,6 @@
       }
     });
 
-    // mulai game
     showQuestion();
   </script>
 </body>
