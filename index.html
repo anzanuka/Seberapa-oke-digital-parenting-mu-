@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sudah Bijak Belum Mengatur Gadget Anak?</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top, #e3f2ff 0, #f6f7ff 40%, #fdfdfd 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .game-container {
+      background: #ffffff;
+      max-width: 540px;
+      width: 100%;
+      padding: 20px 22px 24px;
+      border-radius: 22px;
+      box-shadow: 0 10px 28px rgba(22, 34, 86, 0.12);
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .hero-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #4f7cff, #8e9dff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(79, 124, 255, 0.5);
+    }
+
+    .hero-text h1 {
+      font-size: 1.25rem;
+      margin: 0 0 2px;
+      color: #17213d;
+    }
+
+    .hero-text p {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #5b6487;
+    }
+
+    .subtitle {
+      margin: 6px 0 14px;
+      font-size: 0.8rem;
+      color: #7a82a7;
+    }
+
+    #progress {
+      font-size: 0.8rem;
+      color: #5f6a8a;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 6px;
+      background: #e3e7ff;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-left: 6px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #4f7cff, #36c1a6);
+      transition: width 0.25s ease;
+    }
+
+    #question {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #232b4d;
+      margin: 10px 0 10px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    #question-icon {
+      font-size: 1.2rem;
+      margin-top: 2px;
+    }
+
+    #question-text {
+      flex: 1;
+    }
+
+    #options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .option-btn {
+      border: 1px solid #d4dbff;
+      background: #f7f8ff;
+      padding: 9px 11px;
+      border-radius: 11px;
+      text-align: left;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+    }
+
+    .option-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .option-btn.correct {
+      background: #e4f9ea;
+      border-color: #45b76a;
+    }
+
+    .option-btn.wrong {
+      background: #ffe8e8;
+      border-color: #ff6b6b;
+    }
+
+    .option-btn.disabled {
+      opacity: 0.85;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    #feedback {
+      font-size: 0.83rem;
+      min-height: 40px;
+      margin-bottom: 8px;
+      color: #3b425f;
+    }
+
+    #nextBtn {
+      width: 100%;
+      border: none;
+      background: #4255ff;
+      color: white;
+      padding: 10px 12px;
+      font-size: 0.93rem;
+      border-radius: 11px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease;
+      margin-bottom: 6px;
+    }
+
+    #nextBtn:disabled {
+      background: #c1c7ff;
+      cursor: default;
+      box-shadow: none;
+      transform: none;
+    }
+
+    #nextBtn:not(:disabled):hover {
+      background: #3343d9;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(66, 85, 255, 0.35);
+    }
+
+    #result {
+      margin-top: 4px;
+      font-size: 0.9rem;
+      color: #232b4d;
+      text-align: center;
+    }
+
+    .result-visual {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .result-card {
+      width: 100%;
+      border-radius: 16px;
+      padding: 12px 10px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .result-emoji {
+      width: 52px;
+      height: 52px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .result-text-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .result-text-body {
+      font-size: 0.86rem;
+      line-height: 1.3;
+    }
+
+    .level-1 {
+      background: linear-gradient(135deg, #ff9a9a, #ff6b6b);
+      color: #fff;
+    }
+
+    .level-2 {
+      background: linear-gradient(135deg, #ffd88a, #ffb347);
+      color: #4b2c05;
+    }
+
+    .level-3 {
+      background: linear-gradient(135deg, #a5e7d7, #4fc3a1);
+      color: #053a32;
+    }
+
+    .level-4 {
+      background: linear-gradient(135deg, #9ac0ff, #4f7cff);
+      color: #041738;
+    }
+
+    .tagline {
+      font-size: 0.78rem;
+      color: #8c94b8;
+      text-align: center;
+      margin-top: 4px;
+    }
+
+    /* Share section */
+    .share-container {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px dashed #d8ddff;
+      display: none;
+    }
+
+    .share-label {
+      font-size: 0.8rem;
+      color: #5b6487;
+      margin-bottom: 4px;
+    }
+
+    #shareText {
+      width: 100%;
+      min-height: 90px;
+      border-radius: 10px;
+      border: 1px solid #d4dbff;
+      padding: 8px;
+      font-size: 0.8rem;
+      resize: vertical;
+      background: #f7f8ff;
+    }
+
+    #copyBtn {
+      margin-top: 6px;
+      width: 100%;
+      border: none;
+      background: #36c1a6;
+      color: #fff;
+      padding: 8px 10px;
+      font-size: 0.85rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.1s ease, transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    #copyBtn:hover {
+      background: #2aa28a;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(42, 162, 138, 0.35);
+    }
+
+    #copyStatus {
+      margin-top: 4px;
+      font-size: 0.78rem;
+      color: #5b6487;
+      text-align: center;
+      min-height: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <div class="hero">
+      <div class="hero-icon">👨‍👩‍👧‍👦</div>
+      <div class="hero-text">
+        <h1>Sudah Bijak Belum Mengatur Gadget Anak?</h1>
+        <p>Cek kebiasaan Kakak sebagai orangtua dalam mengelola screen time anak.</p>
+      </div>
+    </div>
+    <p class="subtitle">Pilih jawaban yang paling mendekati kebiasaan sehari-hari. Tidak ada hukuman, ini hanya bahan refleksi. 💙</p>
+
+    <div id="progress">
+      <span id="progressText">Pertanyaan 1/10</span>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </div>
+
+    <div id="question">
+      <span id="question-icon">📱</span>
+      <span id="question-text"></span>
+    </div>
+
+    <div id="options"></div>
+    <div id="feedback"></div>
+
+    <button id="nextBtn" disabled>Pertanyaan berikutnya</button>
+    <div id="result"></div>
+    <div id="resultVisual" class="result-visual"></div>
+
+    <!-- Share result section -->
+    <div id="shareContainer" class="share-container">
+      <div class="share-label">Teks refleksi (bisa disalin ke WA/grup orangtua):</div>
+      <textarea id="shareText" readonly></textarea>
+      <button id="copyBtn">Salin teks refleksi</button>
+      <div id="copyStatus"></div>
+    </div>
+
+    <p class="tagline">Gadget hanyalah alat. Hubungan hangat orangtua–anak tetap yang utama. 🌿</p>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        icon: "⏰",
+        text: "Di rumah, apakah sudah ada aturan durasi harian penggunaan gadget untuk anak (misalnya 1–2 jam per hari)?",
+        options: [
+          {
+            text: "Belum ada aturan sama sekali, jalan saja apa adanya.",
+            correct: false,
+            feedback: "Tanpa aturan dasar, anak cenderung memakai gadget berlebihan dan sulit dikendalikan."
+          },
+          {
+            text: "Ada aturan, tapi sering dilanggar baik oleh anak maupun orangtua.",
+            correct: false,
+            feedback: "Ini langkah awal yang baik, tapi perlu konsistensi supaya anak merasa aturannya sungguh penting."
+          },
+          {
+            text: "Ada aturan jelas, disepakati bersama dan cukup konsisten dijalankan.",
+            correct: true,
+            feedback: "Keren! Aturan yang disepakati bersama dan dijalankan konsisten mengajarkan tanggung jawab pada anak."
+          }
+        ]
+      },
+      {
+        icon: "👀",
+        text: "Saat mendampingi anak, seberapa sering Kakak ikut asyik sendiri dengan HP (scroll sosmed, chat, dll.)?",
+        options: [
+          {
+            text: "Hampir selalu, sekalian mumpung bisa balas pesan dan cek sosmed.",
+            correct: false,
+            feedback: "Anak belajar dari contoh. Kalau orangtua selalu sibuk HP, anak akan meniru pola itu."
+          },
+          {
+            text: "Kadang-kadang masih sambil pegang HP, tapi mencoba mengurangi.",
+            correct: false,
+            feedback: "Ini sudah usaha yang baik. Perlu sedikit lagi penguatan supaya anak merasa benar-benar diperhatikan."
+          },
+          {
+            text: "Saat bersama anak (makan, ngobrol, bermain) HP biasanya disimpan dulu.",
+            correct: true,
+            feedback: "Luar biasa. Kehadiran penuh orangtua membuat anak merasa penting dan dihargai."
+          }
+        ]
+      },
+      {
+        icon: "🍽️",
+        text: "Bagaimana aturan gadget saat makan bersama keluarga?",
+        options: [
+          {
+            text: "Semua bebas menggunakan HP selama makan, yang penting anak habis makannya.",
+            correct: false,
+            feedback: "Makan sambil gadget membuat anak kurang peka dengan rasa kenyang dan mengurangi kualitas obrolan keluarga."
+          },
+          {
+            text: "Kadang dilarang, kadang dibiarkan tergantung suasana hati.",
+            correct: false,
+            feedback: "Aturan yang berubah-ubah membuat anak bingung. Konsistensi penting supaya anak paham batasannya."
+          },
+          {
+            text: "Meja makan adalah zona bebas gadget untuk semua anggota keluarga.",
+            correct: true,
+            feedback: "Bagus sekali! Momen makan bisa jadi ruang ngobrol dan saling terkoneksi tanpa gangguan layar."
+          }
+        ]
+      },
+      {
+        icon: "🌙",
+        text: "Bagaimana kebiasaan anak menjelang tidur terkait gadget?",
+        options: [
+          {
+            text: "Sering pakai gadget sampai benar-benar mengantuk, baru HP dimatikan.",
+            correct: false,
+            feedback: "Layar sebelum tidur membuat otak anak sulit beristirahat dan mengganggu kualitas tidur."
+          },
+          {
+            text: "Kadang berhenti pakai gadget sebelum tidur, tapi belum konsisten.",
+            correct: false,
+            feedback: "Perubahan kecil sudah bagus. Tinggal dibuat rutinitas tetap supaya tubuh anak lebih mudah bersiap tidur."
+          },
+          {
+            text: "Ada aturan berhenti gadget minimal 30–60 menit sebelum tidur dengan rutinitas tenang (baca buku, ngobrol).",
+            correct: true,
+            feedback: "Pilihan yang sangat bijak. Rutinitas ini membantu anak punya pola tidur yang sehat."
+          }
+        ]
+      },
+      {
+        icon: "🧭",
+        text: "Saat anak online (menonton video, main game, media sosial), seberapa sering Kakak mendampingi atau mengecek isi kontennya?",
+        options: [
+          {
+            text: "Jarang, yang penting anak diam dan tidak rewel.",
+            correct: false,
+            feedback: "Tanpa pendampingan, anak mudah terpapar konten yang tidak sesuai usia atau berisiko."
+          },
+          {
+            text: "Kadang mengecek kalau ingat atau kalau ada hal yang mencurigakan.",
+            correct: false,
+            feedback: "Ini langkah awal yang baik, tapi akan lebih aman jika pendampingan dibuat lebih rutin."
+          },
+          {
+            text: "Rutin mengecek dan sesekali ikut menonton atau bermain bersama anak.",
+            correct: true,
+            feedback: "Hebat! Pendampingan aktif membuat anak merasa aman dan terbuka saat menemukan hal yang mengganggu."
+          }
+        ]
+      },
+      {
+        icon: "🔐",
+        text: "Apakah Kakak menggunakan fitur pengaturan keamanan (parental control, filter konten, batas waktu) di perangkat anak?",
+        options: [
+          {
+            text: "Belum, karena merasa ribet atau belum sempat mempelajari.",
+            correct: false,
+            feedback: "Fitur ini sebenarnya bisa sangat membantu orangtua menjaga anak di dunia digital."
+          },
+          {
+            text: "Sudah tahu fitur tersebut, tapi baru sebagian kecil yang digunakan.",
+            correct: false,
+            feedback: "Ini langkah bagus. Perlahan bisa ditambah fitur lain yang mendukung keamanan anak."
+          },
+          {
+            text: "Ya, sudah mengaktifkan beberapa fitur sesuai usia dan kebutuhan anak.",
+            correct: true,
+            feedback: "Keren! Menggabungkan pengawasan orangtua dengan fitur teknologi adalah kombinasi yang kuat."
+          }
+        ]
+      },
+      {
+        icon: "🗣️",
+        text: "Saat membuat aturan gadget, apakah anak diajak berdiskusi dan menyampaikan pendapatnya?",
+        options: [
+          {
+            text: "Tidak, aturan dibuat sepihak demi praktis. Anak tinggal mengikuti.",
+            correct: false,
+            feedback: "Anak cenderung lebih mudah patuh jika merasa didengar dan dilibatkan."
+          },
+          {
+            text: "Kadang diajak bicara, tapi keputusan akhir tetap orangtua tanpa banyak dialog.",
+            correct: false,
+            feedback: "Ini sudah arah yang baik. Sedikit lagi ruang dialog akan membuat anak merasa lebih dilibatkan."
+          },
+          {
+            text: "Ya, anak diajak diskusi, boleh memberi masukan, lalu disepakati bersama.",
+            correct: true,
+            feedback: "Luar biasa. Ini memberi pesan bahwa aturan dibuat untuk kebaikan bersama, bukan sekadar larangan."
+          }
+        ]
+      },
+      {
+        icon: "💢",
+        text: "Kalau anak marah atau tantrum saat gadget diminta berhenti, apa yang biasanya Kakak lakukan?",
+        options: [
+          {
+            text: "Ikut marah, membentak, atau langsung mengambil paksa gadget.",
+            correct: false,
+            feedback: "Cara ini bisa membuat anak merasa tidak didengar dan memperburuk konflik."
+          },
+          {
+            text: "Membiarkan dulu sampai reda, baru diajak bicara sesudahnya.",
+            correct: false,
+            feedback: "Lebih tenang memang, tapi akan lebih efektif jika ada penjelasan dan latihan mengelola emosi."
+          },
+          {
+            text: "Mengakui perasaan anak (marah/sedih), menjelaskan alasannya, dan konsisten dengan kesepakatan.",
+            correct: true,
+            feedback: "Ini contoh disiplin positif yang membantu anak belajar mengelola emosi dan memahami batasan."
+          }
+        ]
+      },
+      {
+        icon: "🎨",
+        text: "Seberapa sering Kakak menawarkan kegiatan alternatif selain gadget (bermain, olahraga, ngobrol, kreasi karya)?",
+        options: [
+          {
+            text: "Jarang, karena semua orang di rumah juga sibuk dengan gadget masing-masing.",
+            correct: false,
+            feedback: "Tanpa alternatif, wajar jika anak menjadikan gadget sebagai satu-satunya hiburan."
+          },
+          {
+            text: "Kadang menawarkan, tapi kalau anak menolak ya dibiarkan kembali ke gadget.",
+            correct: false,
+            feedback: "Ini langkah awal. Jika alternatifnya dibuat lebih menarik dan rutin, anak lebih mudah tertarik."
+          },
+          {
+            text: "Cukup sering menawarkan dan ikut terlibat (misalnya main bareng, baca buku, masak bersama).",
+            correct: true,
+            feedback: "Asik sekali! Pengalaman bersama orangtua adalah 'konten terbaik' untuk tumbuh kembang anak."
+          }
+        ]
+      },
+      {
+        icon: "🧠",
+        text: "Apakah Kakak rutin mengajak anak ngobrol tentang hal yang mereka tonton/mainkan di gadget (apa yang disuka, yang bikin takut, bingung, dll.)?",
+        options: [
+          {
+            text: "Hampir tidak pernah, yang penting anak tidak mengganggu.",
+            correct: false,
+            feedback: "Tanpa ruang ngobrol, anak mungkin menyimpan kebingungan atau ketakutan sendirian."
+          },
+          {
+            text: "Sesekali menanyakan, biasanya kalau ada berita viral atau kejadian tertentu.",
+            correct: false,
+            feedback: "Ini sudah bagus. Akan lebih kuat jika jadi obrolan rutin sehingga anak terbiasa bercerita."
+          },
+          {
+            text: "Sering mengajak ngobrol santai tentang pengalaman digital anak dengan bahasa yang tidak menghakimi.",
+            correct: true,
+            feedback: "Hebat! Ini membantu anak merasa aman bercerita jika suatu hari mengalami hal tidak menyenangkan di dunia digital."
+          }
+        ]
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const progressTextEl = document.getElementById("progressText");
+    const progressFillEl = document.getElementById("progressFill");
+    const questionTextEl = document.getElementById("question-text");
+    const questionIconEl = document.getElementById("question-icon");
+    const optionsEl = document.getElementById("options");
+    const feedbackEl = document.getElementById("feedback");
+    const nextBtn = document.getElementById("nextBtn");
+    const resultEl = document.getElementById("result");
+    const resultVisualEl = document.getElementById("resultVisual");
+
+    const shareContainerEl = document.getElementById("shareContainer");
+    const shareTextEl = document.getElementById("shareText");
+    const copyBtn = document.getElementById("copyBtn");
+    const copyStatusEl = document.getElementById("copyStatus");
+
+    function updateProgress() {
+      const total = questions.length;
+      const current = currentQuestionIndex + 1;
+      progressTextEl.textContent = `Pertanyaan ${current}/${total}`;
+      const percent = (currentQuestionIndex / total) * 100;
+      progressFillEl.style.width = `${percent}%`;
+    }
+
+    function showQuestion() {
+      const current = questions[currentQuestionIndex];
+      questionTextEl.textContent = current.text;
+      questionIconEl.textContent = current.icon || "📱";
+      feedbackEl.textContent = "";
+      resultEl.textContent = "";
+      resultVisualEl.innerHTML = "";
+      shareContainerEl.style.display = "none";
+      copyStatusEl.textContent = "";
+
+      optionsEl.innerHTML = "";
+      nextBtn.disabled = true;
+      nextBtn.textContent =
+        currentQuestionIndex === questions.length - 1
+          ? "Lihat hasil refleksi"
+          : "Pertanyaan berikutnya";
+
+      current.options.forEach((option, index) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.textContent = option.text;
+        btn.addEventListener("click", () => handleOptionClick(index));
+        optionsEl.appendChild(btn);
+      });
+
+      updateProgress();
+    }
+
+    function handleOptionClick(selectedIndex) {
+      const current = questions[currentQuestionIndex];
+      const optionButtons = document.querySelectorAll(".option-btn");
+
+      optionButtons.forEach((btn, index) => {
+        btn.classList.add("disabled");
+        const isCorrect = current.options[index].correct;
+        if (isCorrect) {
+          btn.classList.add("correct");
+        }
+        if (index === selectedIndex && !isCorrect) {
+          btn.classList.add("wrong");
+        }
+      });
+
+      const selectedOption = current.options[selectedIndex];
+      if (selectedOption.correct) {
+        score++;
+      }
+
+      feedbackEl.textContent = selectedOption.feedback;
+      nextBtn.disabled = false;
+    }
+
+    function showResult() {
+      optionsEl.innerHTML = "";
+      feedbackEl.textContent = "";
+      questionTextEl.textContent = "Refleksi Penggunaan Gadget di Keluarga";
+      questionIconEl.textContent = "🧩";
+
+      const total = questions.length;
+      resultEl.textContent = `Kakak memilih jawaban paling bijak pada ${score} dari ${total} situasi.`;
+
+      // Tentukan level (4 kategori)
+      let title, body, emoji, levelClass;
+      const percentage = (score / total) * 100;
+
+      if (percentage <= 25) {
+        emoji = "🚨";
+        levelClass = "level-1";
+        title = "Perlu Banyak Perbaikan";
+        body =
+          "Tidak apa-apa, justru ini langkah awal yang bagus karena saya mau mengecek. Saat ini, gadget mungkin masih sangat dominan di rumah. Pelan-pelan, mulai dari satu perubahan kecil: misalnya meja makan bebas gadget atau batas waktu sebelum tidur.";
+      } else if (percentage <= 50) {
+        emoji = "🔍";
+        levelClass = "level-2";
+        title = "Sedang Belajar dan Mencari Pola";
+        body =
+          "Saya sudah punya beberapa kebiasaan baik, tapi masih naik-turun. Ini wajar di tengah kesibukan. Dengan sedikit lebih konsisten, melibatkan anak dalam membuat kesepakatan, dan memanfaatkan fitur keamanan, kualitas penggunaan gadget akan jauh lebih sehat.";
+      } else if (percentage <= 80) {
+        emoji = "🌱";
+        levelClass = "level-3";
+        title = "Sudah Cukup Bijak, Tinggal Dikuatkan";
+        body =
+          "Sebagian besar kebiasaan saya sudah mendukung penggunaan gadget yang sehat. Tinggal dikuatkan di area tertentu, misalnya contoh dari orangtua dan obrolan rutin tentang pengalaman digital anak.";
+      } else {
+        emoji = "🌟";
+        levelClass = "level-4";
+        title = "Oke Banget! Role Model Digital Parenting";
+        body =
+          "Saya sudah cukup konsisten menerapkan disiplin positif dan pendampingan digital pada anak. Tantangan ke depan adalah tetap fleksibel dan terus belajar, karena dunia digital terus berubah.";
+      }
+
+      const card = document.createElement("div");
+      card.className = `result-card ${levelClass}`;
+
+      const emojiDiv = document.createElement("div");
+      emojiDiv.className = "result-emoji";
+      emojiDiv.textContent = emoji;
+
+      const textWrap = document.createElement("div");
+      const titleEl = document.createElement("div");
+      titleEl.className = "result-text-title";
+      titleEl.textContent = title;
+
+      const bodyEl = document.createElement("div");
+      bodyEl.className = "result-text-body";
+      bodyEl.textContent = body;
+
+      textWrap.appendChild(titleEl);
+      textWrap.appendChild(bodyEl);
+
+      card.appendChild(emojiDiv);
+      card.appendChild(textWrap);
+
+      resultVisualEl.appendChild(card);
+
+      // Siapkan teks refleksi untuk dibagikan
+      const shareText =
+        `Refleksi penggunaan gadget di keluarga\n` +
+        `---------------------------------------\n` +
+        `Skor saya: ${score} dari ${total} situasi.\n` +
+        `Level: ${title}\n\n` +
+        `Catatan refleksi:\n${body}\n\n` +
+        `Langkah kecil yang ingin saya coba setelah ini:\n- ..................................................\n- ..................................................\n\n` +
+        `(*Teks ini bisa saya simpan atau bagikan ke pasangan/keluarga sebagai pengingat bersama.)`;
+
+      shareTextEl.value = shareText;
+      shareContainerEl.style.display = "block";
+
+      nextBtn.disabled = true;
+      progressFillEl.style.width = "100%";
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (currentQuestionIndex < questions.length - 1) {
+        currentQuestionIndex++;
+        showQuestion();
+      } else {
+        showResult();
+      }
+    });
+
+    copyBtn.addEventListener("click", () => {
+      const textToCopy = shareTextEl.value;
+      if (!textToCopy) return;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard
+          .writeText(textToCopy)
+          .then(() => {
+            copyStatusEl.textContent = "Teks refleksi berhasil disalin ✅";
+          })
+          .catch(() => {
+            copyStatusEl.textContent = "Gagal menyalin. Silakan blok dan salin manual.";
+          });
+      } else {
+        // fallback sederhana
+        shareTextEl.select();
+        document.execCommand("copy");
+        copyStatusEl.textContent = "Teks refleksi berhasil disalin ✅";
+      }
+    });
+
+    // mulai game
+    showQuestion();
+  </script>
+</body>
+</html>
