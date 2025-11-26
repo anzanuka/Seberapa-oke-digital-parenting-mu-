@@ -22,11 +22,50 @@
 
     .game-container {
       background: #ffffff;
-      max-width: 540px;
+      max-width: 570px;
       width: 100%;
       padding: 20px 22px 24px;
       border-radius: 22px;
       box-shadow: 0 10px 28px rgba(22, 34, 86, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background decorative shapes */
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.18;
+      pointer-events: none;
+    }
+
+    .bubble.b1 {
+      width: 120px;
+      height: 120px;
+      background: #8ea3ff;
+      top: -40px;
+      right: -20px;
+    }
+
+    .bubble.b2 {
+      width: 90px;
+      height: 90px;
+      background: #36c1a6;
+      bottom: -30px;
+      left: -15px;
+    }
+
+    .bubble.b3 {
+      width: 60px;
+      height: 60px;
+      background: #ffd88a;
+      top: 40%;
+      right: -10px;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
     }
 
     .hero {
@@ -36,17 +75,38 @@
       margin-bottom: 10px;
     }
 
-    .hero-icon {
-      width: 52px;
-      height: 52px;
+    .hero-icon-wrapper {
+      position: relative;
+      width: 60px;
+      height: 60px;
+    }
+
+    .hero-icon-main {
+      width: 60px;
+      height: 60px;
       border-radius: 18px;
       background: linear-gradient(135deg, #4f7cff, #8e9dff);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.8rem;
+      font-size: 1.9rem;
       color: #fff;
       box-shadow: 0 8px 18px rgba(79, 124, 255, 0.5);
+    }
+
+    .hero-icon-sub {
+      position: absolute;
+      bottom: -4px;
+      right: -4px;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      border: 2px solid #dfe5ff;
     }
 
     .hero-text h1 {
@@ -128,6 +188,18 @@
       font-size: 0.9rem;
       cursor: pointer;
       transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .option-badge {
+      font-size: 0.8rem;
+      margin-top: 2px;
+    }
+
+    .option-btn span.option-text {
+      flex: 1;
     }
 
     .option-btn:hover {
@@ -192,6 +264,38 @@
       text-align: center;
     }
 
+    .level-meter {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 0.72rem;
+      color: #6b7395;
+    }
+
+    .level-step {
+      flex: 1;
+      background: #f3f4ff;
+      border-radius: 999px;
+      padding: 4px 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      opacity: 0.6;
+    }
+
+    .level-step span.icon {
+      font-size: 1rem;
+    }
+
+    .level-step.active {
+      background: linear-gradient(135deg, #4f7cff, #9ac0ff);
+      color: #fff;
+      opacity: 1;
+      box-shadow: 0 4px 12px rgba(79, 124, 255, 0.5);
+    }
+
     .result-visual {
       margin-top: 10px;
       display: flex;
@@ -251,11 +355,46 @@
       color: #041738;
     }
 
+    .tips-section-title {
+      font-size: 0.86rem;
+      font-weight: 600;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      color: #202744;
+    }
+
+    .tips-list {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.82rem;
+      color: #3c4463;
+    }
+
+    .tips-list li {
+      margin-bottom: 3px;
+    }
+
+    .area-section {
+      margin-top: 8px;
+      font-size: 0.82rem;
+      color: #3c4463;
+    }
+
+    .area-section-title {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .area-section ul {
+      padding-left: 18px;
+      margin: 0;
+    }
+
     .tagline {
       font-size: 0.78rem;
       color: #8c94b8;
       text-align: center;
-      margin-top: 4px;
+      margin-top: 6px;
     }
 
     /* Share section */
@@ -314,43 +453,71 @@
 </head>
 <body>
   <div class="game-container">
-    <div class="hero">
-      <div class="hero-icon">👨‍👩‍👧‍👦</div>
-      <div class="hero-text">
-        <h1>Sudah Bijak Belum Mengatur Gadget Anak?</h1>
-        <p>Cek kebiasaan Kakak sebagai orangtua dalam mengelola screen time anak.</p>
+    <!-- Decorative bubbles -->
+    <div class="bubble b1"></div>
+    <div class="bubble b2"></div>
+    <div class="bubble b3"></div>
+
+    <div class="content">
+      <div class="hero">
+        <div class="hero-icon-wrapper">
+          <div class="hero-icon-main">👨‍👩‍👧‍👦</div>
+          <div class="hero-icon-sub">📱</div>
+        </div>
+        <div class="hero-text">
+          <h1>Sudah Bijak Belum Mengatur Gadget Anak?</h1>
+          <p>Refleksi singkat untuk melihat pola pengasuhan digital di keluarga Anda.</p>
+        </div>
       </div>
-    </div>
-    <p class="subtitle">Pilih jawaban yang paling mendekati kebiasaan sehari-hari. Tidak ada hukuman, ini hanya bahan refleksi. 💙</p>
+      <p class="subtitle">
+        Pilih jawaban yang paling mendekati kebiasaan sehari-hari. Tidak ada jawaban “sempurna”, semua adalah proses belajar bersama. 💙
+      </p>
 
-    <div id="progress">
-      <span id="progressText">Pertanyaan 1/10</span>
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
+      <div id="progress">
+        <span id="progressText">Pertanyaan 1/10</span>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
       </div>
+
+      <div id="question">
+        <span id="question-icon">📱</span>
+        <span id="question-text"></span>
+      </div>
+
+      <div id="options"></div>
+      <div id="feedback"></div>
+
+      <button id="nextBtn" disabled>Pertanyaan berikutnya</button>
+      <div id="result"></div>
+
+      <div class="level-meter">
+        <div class="level-step" id="step1">
+          <span class="icon">🚨</span><span>Perlu banyak perbaikan</span>
+        </div>
+        <div class="level-step" id="step2">
+          <span class="icon">🔍</span><span>Sedang belajar</span>
+        </div>
+        <div class="level-step" id="step3">
+          <span class="icon">🌱</span><span>Cukup bijak</span>
+        </div>
+        <div class="level-step" id="step4">
+          <span class="icon">🌟</span><span>Role model</span>
+        </div>
+      </div>
+
+      <div id="resultVisual" class="result-visual"></div>
+
+      <!-- Share result section -->
+      <div id="shareContainer" class="share-container">
+        <div class="share-label">Teks refleksi (bisa disalin ke WA/grup orangtua):</div>
+        <textarea id="shareText" readonly></textarea>
+        <button id="copyBtn">Salin teks refleksi</button>
+        <div id="copyStatus"></div>
+      </div>
+
+      <p class="tagline">Gadget hanyalah alat. Kehangatan dan kehadiran Anda tetap menjadi “aplikasi” terpenting bagi anak. 🌿</p>
     </div>
-
-    <div id="question">
-      <span id="question-icon">📱</span>
-      <span id="question-text"></span>
-    </div>
-
-    <div id="options"></div>
-    <div id="feedback"></div>
-
-    <button id="nextBtn" disabled>Pertanyaan berikutnya</button>
-    <div id="result"></div>
-    <div id="resultVisual" class="result-visual"></div>
-
-    <!-- Share result section -->
-    <div id="shareContainer" class="share-container">
-      <div class="share-label">Teks refleksi (bisa disalin ke WA/grup orangtua):</div>
-      <textarea id="shareText" readonly></textarea>
-      <button id="copyBtn">Salin teks refleksi</button>
-      <div id="copyStatus"></div>
-    </div>
-
-    <p class="tagline">Gadget hanyalah alat. Hubungan hangat orangtua–anak tetap yang utama. 🌿</p>
   </div>
 
   <script>
@@ -358,40 +525,42 @@
       {
         icon: "⏰",
         text: "Di rumah, apakah sudah ada aturan durasi harian penggunaan gadget untuk anak (misalnya 1–2 jam per hari)?",
+        area: "Waktu & durasi",
         options: [
           {
-            text: "Belum ada aturan sama sekali, jalan saja apa adanya.",
+            text: "Belum ada aturan sama sekali, berjalan saja apa adanya.",
             correct: false,
             feedback: "Tanpa aturan dasar, anak cenderung memakai gadget berlebihan dan sulit dikendalikan."
           },
           {
-            text: "Ada aturan, tapi sering dilanggar baik oleh anak maupun orangtua.",
+            text: "Ada aturan, tetapi sering dilanggar baik oleh anak maupun orangtua.",
             correct: false,
-            feedback: "Ini langkah awal yang baik, tapi perlu konsistensi supaya anak merasa aturannya sungguh penting."
+            feedback: "Ini langkah awal yang baik, namun perlu konsistensi agar anak merasa aturannya sungguh penting."
           },
           {
             text: "Ada aturan jelas, disepakati bersama dan cukup konsisten dijalankan.",
             correct: true,
-            feedback: "Keren! Aturan yang disepakati bersama dan dijalankan konsisten mengajarkan tanggung jawab pada anak."
+            feedback: "Bagus sekali. Aturan yang disepakati bersama dan dijalankan konsisten mengajarkan tanggung jawab pada anak."
           }
         ]
       },
       {
         icon: "👀",
-        text: "Saat mendampingi anak, seberapa sering Kakak ikut asyik sendiri dengan HP (scroll sosmed, chat, dll.)?",
+        text: "Saat mendampingi anak, seberapa sering Anda ikut asyik sendiri dengan gawai (scroll media sosial, chat, dll.)?",
+        area: "Contoh dari orangtua",
         options: [
           {
-            text: "Hampir selalu, sekalian mumpung bisa balas pesan dan cek sosmed.",
+            text: "Hampir selalu, sekalian mumpung bisa membalas pesan dan mengecek media sosial.",
             correct: false,
-            feedback: "Anak belajar dari contoh. Kalau orangtua selalu sibuk HP, anak akan meniru pola itu."
+            feedback: "Anak belajar dari contoh. Jika orangtua sering sibuk dengan gawai, anak akan meniru pola yang sama."
           },
           {
-            text: "Kadang-kadang masih sambil pegang HP, tapi mencoba mengurangi.",
+            text: "Kadang-kadang masih sambil memegang gawai, tetapi Anda mencoba mengurangi.",
             correct: false,
-            feedback: "Ini sudah usaha yang baik. Perlu sedikit lagi penguatan supaya anak merasa benar-benar diperhatikan."
+            feedback: "Ini sudah bentuk usaha yang baik. Perlu sedikit penguatan agar anak merasa mendapat perhatian penuh."
           },
           {
-            text: "Saat bersama anak (makan, ngobrol, bermain) HP biasanya disimpan dulu.",
+            text: "Saat bersama anak (makan, mengobrol, bermain), gawai biasanya disimpan terlebih dahulu.",
             correct: true,
             feedback: "Luar biasa. Kehadiran penuh orangtua membuat anak merasa penting dan dihargai."
           }
@@ -399,49 +568,52 @@
       },
       {
         icon: "🍽️",
-        text: "Bagaimana aturan gadget saat makan bersama keluarga?",
+        text: "Bagaimana aturan gawai saat makan bersama keluarga?",
+        area: "Zona tanpa gawai",
         options: [
           {
-            text: "Semua bebas menggunakan HP selama makan, yang penting anak habis makannya.",
+            text: "Semua bebas menggunakan gawai selama makan, yang penting anak menghabiskan makanannya.",
             correct: false,
-            feedback: "Makan sambil gadget membuat anak kurang peka dengan rasa kenyang dan mengurangi kualitas obrolan keluarga."
+            feedback: "Makan sambil menatap layar membuat anak kurang peka terhadap rasa kenyang dan mengurangi kualitas obrolan keluarga."
           },
           {
             text: "Kadang dilarang, kadang dibiarkan tergantung suasana hati.",
             correct: false,
-            feedback: "Aturan yang berubah-ubah membuat anak bingung. Konsistensi penting supaya anak paham batasannya."
+            feedback: "Aturan yang berubah-ubah membuat anak bingung. Konsistensi penting agar anak memahami batasan."
           },
           {
-            text: "Meja makan adalah zona bebas gadget untuk semua anggota keluarga.",
+            text: "Meja makan adalah zona bebas gawai untuk semua anggota keluarga.",
             correct: true,
-            feedback: "Bagus sekali! Momen makan bisa jadi ruang ngobrol dan saling terkoneksi tanpa gangguan layar."
+            feedback: "Pilihan yang sangat baik. Momen makan bisa menjadi ruang ngobrol dan saling terkoneksi tanpa gangguan layar."
           }
         ]
       },
       {
         icon: "🌙",
-        text: "Bagaimana kebiasaan anak menjelang tidur terkait gadget?",
+        text: "Bagaimana kebiasaan anak menjelang tidur terkait penggunaan gawai?",
+        area: "Gawai sebelum tidur",
         options: [
           {
-            text: "Sering pakai gadget sampai benar-benar mengantuk, baru HP dimatikan.",
+            text: "Sering menggunakan gawai sampai benar-benar mengantuk, baru gawai dimatikan.",
             correct: false,
-            feedback: "Layar sebelum tidur membuat otak anak sulit beristirahat dan mengganggu kualitas tidur."
+            feedback: "Layar sebelum tidur membuat otak anak sulit beristirahat dan mengganggu kualitas tidurnya."
           },
           {
-            text: "Kadang berhenti pakai gadget sebelum tidur, tapi belum konsisten.",
+            text: "Kadang berhenti menggunakan gawai sebelum tidur, tetapi belum konsisten.",
             correct: false,
-            feedback: "Perubahan kecil sudah bagus. Tinggal dibuat rutinitas tetap supaya tubuh anak lebih mudah bersiap tidur."
+            feedback: "Perubahan kecil sudah baik. Akan lebih optimal jika dibuat rutinitas yang tetap setiap malam."
           },
           {
-            text: "Ada aturan berhenti gadget minimal 30–60 menit sebelum tidur dengan rutinitas tenang (baca buku, ngobrol).",
+            text: "Ada aturan berhenti gawai minimal 30–60 menit sebelum tidur dengan rutinitas tenang (membaca buku, mengobrol).",
             correct: true,
-            feedback: "Pilihan yang sangat bijak. Rutinitas ini membantu anak punya pola tidur yang sehat."
+            feedback: "Ini kebiasaan yang sangat mendukung pola tidur sehat bagi anak."
           }
         ]
       },
       {
         icon: "🧭",
-        text: "Saat anak online (menonton video, main game, media sosial), seberapa sering Kakak mendampingi atau mengecek isi kontennya?",
+        text: "Saat anak online (menonton video, bermain gim, atau menggunakan media sosial), seberapa sering Anda mendampingi atau mengecek kontennya?",
+        area: "Pendampingan konten",
         options: [
           {
             text: "Jarang, yang penting anak diam dan tidak rewel.",
@@ -449,41 +621,43 @@
             feedback: "Tanpa pendampingan, anak mudah terpapar konten yang tidak sesuai usia atau berisiko."
           },
           {
-            text: "Kadang mengecek kalau ingat atau kalau ada hal yang mencurigakan.",
+            text: "Kadang mengecek jika teringat atau jika ada hal yang mencurigakan.",
             correct: false,
-            feedback: "Ini langkah awal yang baik, tapi akan lebih aman jika pendampingan dibuat lebih rutin."
+            feedback: "Ini adalah langkah awal yang baik, namun akan lebih aman jika pendampingan dilakukan lebih rutin."
           },
           {
             text: "Rutin mengecek dan sesekali ikut menonton atau bermain bersama anak.",
             correct: true,
-            feedback: "Hebat! Pendampingan aktif membuat anak merasa aman dan terbuka saat menemukan hal yang mengganggu."
+            feedback: "Hebat. Pendampingan aktif membuat anak merasa aman dan terbuka saat menemukan hal yang mengganggu."
           }
         ]
       },
       {
         icon: "🔐",
-        text: "Apakah Kakak menggunakan fitur pengaturan keamanan (parental control, filter konten, batas waktu) di perangkat anak?",
+        text: "Apakah Anda menggunakan fitur pengaturan keamanan (parental control, filter konten, batas waktu) di perangkat anak?",
+        area: "Fitur keamanan",
         options: [
           {
-            text: "Belum, karena merasa ribet atau belum sempat mempelajari.",
+            text: "Belum, karena terasa rumit atau belum sempat mempelajari.",
             correct: false,
-            feedback: "Fitur ini sebenarnya bisa sangat membantu orangtua menjaga anak di dunia digital."
+            feedback: "Fitur ini sebenarnya dapat sangat membantu orangtua menjaga anak di dunia digital."
           },
           {
-            text: "Sudah tahu fitur tersebut, tapi baru sebagian kecil yang digunakan.",
+            text: "Sudah mengetahui fitur tersebut, tetapi baru sebagian kecil yang digunakan.",
             correct: false,
-            feedback: "Ini langkah bagus. Perlahan bisa ditambah fitur lain yang mendukung keamanan anak."
+            feedback: "Ini adalah langkah yang baik. Secara bertahap, fitur lain dapat ditambahkan sesuai kebutuhan anak."
           },
           {
             text: "Ya, sudah mengaktifkan beberapa fitur sesuai usia dan kebutuhan anak.",
             correct: true,
-            feedback: "Keren! Menggabungkan pengawasan orangtua dengan fitur teknologi adalah kombinasi yang kuat."
+            feedback: "Bagus sekali. Menggabungkan pengawasan orangtua dengan dukungan teknologi adalah kombinasi yang kuat."
           }
         ]
       },
       {
         icon: "🗣️",
-        text: "Saat membuat aturan gadget, apakah anak diajak berdiskusi dan menyampaikan pendapatnya?",
+        text: "Saat membuat aturan gawai, apakah anak diajak berdiskusi dan menyampaikan pendapatnya?",
+        area: "Dialog & kesepakatan",
         options: [
           {
             text: "Tidak, aturan dibuat sepihak demi praktis. Anak tinggal mengikuti.",
@@ -491,33 +665,34 @@
             feedback: "Anak cenderung lebih mudah patuh jika merasa didengar dan dilibatkan."
           },
           {
-            text: "Kadang diajak bicara, tapi keputusan akhir tetap orangtua tanpa banyak dialog.",
+            text: "Kadang diajak berbicara, tetapi keputusan akhir tetap orangtua tanpa banyak dialog.",
             correct: false,
-            feedback: "Ini sudah arah yang baik. Sedikit lagi ruang dialog akan membuat anak merasa lebih dilibatkan."
+            feedback: "Ini sudah mengarah pada dialog. Sedikit lebih banyak ruang diskusi akan membuat anak merasa lebih dilibatkan."
           },
           {
-            text: "Ya, anak diajak diskusi, boleh memberi masukan, lalu disepakati bersama.",
+            text: "Ya, anak diajak berdiskusi, boleh memberi masukan, kemudian disepakati bersama.",
             correct: true,
-            feedback: "Luar biasa. Ini memberi pesan bahwa aturan dibuat untuk kebaikan bersama, bukan sekadar larangan."
+            feedback: "Sangat baik. Ini memberi pesan bahwa aturan dibuat untuk kebaikan bersama, bukan sekadar larangan."
           }
         ]
       },
       {
         icon: "💢",
-        text: "Kalau anak marah atau tantrum saat gadget diminta berhenti, apa yang biasanya Kakak lakukan?",
+        text: "Jika anak marah atau tantrum saat diminta berhenti menggunakan gawai, apa yang biasanya Anda lakukan?",
+        area: "Disiplin positif & emosi",
         options: [
           {
-            text: "Ikut marah, membentak, atau langsung mengambil paksa gadget.",
+            text: "Ikut marah, membentak, atau langsung mengambil paksa gawai.",
             correct: false,
-            feedback: "Cara ini bisa membuat anak merasa tidak didengar dan memperburuk konflik."
+            feedback: "Cara ini dapat membuat anak merasa tidak didengar dan memperburuk konflik."
           },
           {
-            text: "Membiarkan dulu sampai reda, baru diajak bicara sesudahnya.",
+            text: "Membiarkan dulu sampai tenang, baru diajak bicara setelahnya.",
             correct: false,
-            feedback: "Lebih tenang memang, tapi akan lebih efektif jika ada penjelasan dan latihan mengelola emosi."
+            feedback: "Lebih tenang memang, tetapi akan lebih efektif jika diikuti dengan penjelasan dan latihan mengelola emosi."
           },
           {
-            text: "Mengakui perasaan anak (marah/sedih), menjelaskan alasannya, dan konsisten dengan kesepakatan.",
+            text: "Mengakui perasaan anak (marah/sedih), menjelaskan alasannya, dan tetap konsisten dengan kesepakatan.",
             correct: true,
             feedback: "Ini contoh disiplin positif yang membantu anak belajar mengelola emosi dan memahami batasan."
           }
@@ -525,50 +700,149 @@
       },
       {
         icon: "🎨",
-        text: "Seberapa sering Kakak menawarkan kegiatan alternatif selain gadget (bermain, olahraga, ngobrol, kreasi karya)?",
+        text: "Seberapa sering Anda menawarkan kegiatan alternatif selain gawai (bermain, olahraga, mengobrol, membuat karya)?",
+        area: "Alternatif kegiatan",
         options: [
           {
-            text: "Jarang, karena semua orang di rumah juga sibuk dengan gadget masing-masing.",
+            text: "Jarang, karena semua orang di rumah juga sibuk dengan gawai masing-masing.",
             correct: false,
-            feedback: "Tanpa alternatif, wajar jika anak menjadikan gadget sebagai satu-satunya hiburan."
+            feedback: "Tanpa alternatif, wajar jika anak menjadikan gawai sebagai satu-satunya sumber hiburan."
           },
           {
-            text: "Kadang menawarkan, tapi kalau anak menolak ya dibiarkan kembali ke gadget.",
+            text: "Kadang menawarkan, tetapi jika anak menolak biasanya dibiarkan kembali ke gawai.",
             correct: false,
-            feedback: "Ini langkah awal. Jika alternatifnya dibuat lebih menarik dan rutin, anak lebih mudah tertarik."
+            feedback: "Ini adalah langkah awal. Jika alternatif dibuat lebih menarik dan rutin, anak lebih mudah tertarik."
           },
           {
-            text: "Cukup sering menawarkan dan ikut terlibat (misalnya main bareng, baca buku, masak bersama).",
+            text: "Cukup sering menawarkan dan ikut terlibat (misalnya bermain bersama, membaca buku, memasak bersama).",
             correct: true,
-            feedback: "Asik sekali! Pengalaman bersama orangtua adalah 'konten terbaik' untuk tumbuh kembang anak."
+            feedback: "Sangat baik. Pengalaman bersama orangtua adalah 'konten terbaik' untuk tumbuh kembang anak."
           }
         ]
       },
       {
         icon: "🧠",
-        text: "Apakah Kakak rutin mengajak anak ngobrol tentang hal yang mereka tonton/mainkan di gadget (apa yang disuka, yang bikin takut, bingung, dll.)?",
+        text: "Apakah Anda rutin mengajak anak mengobrol tentang apa yang mereka tonton atau mainkan di gawai (hal yang disukai, yang membuat takut, bingung, dll.)?",
+        area: "Obrolan tentang dunia digital",
         options: [
           {
             text: "Hampir tidak pernah, yang penting anak tidak mengganggu.",
             correct: false,
-            feedback: "Tanpa ruang ngobrol, anak mungkin menyimpan kebingungan atau ketakutan sendirian."
+            feedback: "Tanpa ruang obrolan, anak mungkin menyimpan kebingungan atau ketakutan sendirian."
           },
           {
-            text: "Sesekali menanyakan, biasanya kalau ada berita viral atau kejadian tertentu.",
+            text: "Sesekali menanyakan, biasanya jika ada berita viral atau kejadian tertentu.",
             correct: false,
-            feedback: "Ini sudah bagus. Akan lebih kuat jika jadi obrolan rutin sehingga anak terbiasa bercerita."
+            feedback: "Ini sudah baik. Akan lebih kuat jika menjadi obrolan rutin sehingga anak terbiasa bercerita.",
           },
           {
-            text: "Sering mengajak ngobrol santai tentang pengalaman digital anak dengan bahasa yang tidak menghakimi.",
+            text: "Sering mengajak mengobrol santai tentang pengalaman digital anak dengan bahasa yang tidak menghakimi.",
             correct: true,
-            feedback: "Hebat! Ini membantu anak merasa aman bercerita jika suatu hari mengalami hal tidak menyenangkan di dunia digital."
+            feedback: "Hebat. Ini membantu anak merasa aman bercerita jika suatu hari mengalami hal yang tidak menyenangkan di dunia digital."
           }
         ]
       }
     ];
 
+    // Tips per level (minimal 10 kalimat per kategori)
+    const levelTips = {
+      1: [
+        "Mulailah dengan satu aturan kecil yang mudah dilakukan, misalnya menulis durasi maksimal gawai per hari dan menempelkannya di kulkas.",
+        "Ajak seluruh anggota keluarga, termasuk orang dewasa, untuk ikut mematuhi aturan yang sama agar anak merasa adil.",
+        "Pilih satu momen tetap setiap hari sebagai zona bebas gawai, misalnya saat makan malam atau 30 menit sebelum tidur.",
+        "Luangkan waktu 5–10 menit setiap hari hanya untuk mendengarkan cerita anak tanpa gawai di tangan Anda.",
+        "Pelajari satu fitur keamanan sederhana terlebih dahulu, misalnya pengaturan batas waktu di ponsel atau tablet.",
+        "Jangan menyalahkan diri sendiri; lihat hasil kuis ini sebagai titik mulai, bukan vonis akhir.",
+        "Jika anak marah ketika aturan baru diterapkan, validasi perasaannya dengan kalimat seperti, “Ibu/Bapak tahu kamu kecewa, tapi kita sedang belajar bersama.”",
+        "Cari satu aktivitas pengganti yang menyenangkan, seperti board game, menggambar, atau memasak sederhana bersama anak.",
+        "Catat perubahan kecil yang berhasil Anda jalankan dalam seminggu, lalu rayakan keberhasilan tersebut bersama anak.",
+        "Jika terasa sulit, Anda boleh meminta dukungan pasangan, keluarga, atau komunitas orangtua lain sehingga tidak merasa sendirian."
+      ],
+      2: [
+        "Berikan apresiasi pada diri sendiri karena sudah mulai membangun aturan dan kebiasaan baik di rumah.",
+        "Identifikasi dua kebiasaan yang paling sering membuat aturan gawai bocor dan fokus memperbaikinya terlebih dahulu.",
+        "Libatkan anak dalam mengevaluasi aturan yang sudah ada dengan pertanyaan, “Apa yang sudah oke dan apa yang perlu kita ubah?”",
+        "Coba jadwalkan waktu tanpa gawai untuk seluruh keluarga di akhir pekan, misalnya satu jam bermain di luar rumah.",
+        "Perkuat konsistensi dengan membuat pengingat visual, seperti poster aturan gawai yang dibuat bersama anak.",
+        "Jelaskan alasan di balik aturan dengan bahasa yang sederhana, misalnya, “Kalau terlalu lama menatap layar, mata bisa cepat lelah.”",
+        "Latih diri Anda untuk meletakkan gawai ketika anak sedang bercerita, sehingga ia merasa lebih dihargai.",
+        "Mulailah menambahkan satu fitur keamanan baru setiap beberapa minggu, sambil menjelaskan tujuannya kepada anak.",
+        "Jika terjadi konflik, gunakan momen tersebut sebagai kesempatan belajar, bukan sekadar memarahi atau menyerah.",
+        "Teruslah merayakan setiap kemajuan kecil, karena perubahan pola pengasuhan digital adalah proses jangka panjang."
+      ],
+      3: [
+        "Akui bahwa Anda sudah melakukan banyak hal baik dalam pengasuhan digital dan itu patut diapresiasi.",
+        "Gunakan hasil refleksi ini untuk memperhalus area tertentu, misalnya konsistensi jam tidur atau keterlibatan saat anak online.",
+        "Pertahankan kebiasaan mengajak anak berdiskusi sebelum membuat aturan baru, sehingga anak merasa menjadi bagian dari solusi.",
+        "Perluas variasi aktivitas tanpa gawai agar anak memiliki lebih banyak pilihan yang sama menyenangkannya.",
+        "Tingkatkan kualitas kehadiran Anda dengan sesekali menginisiasi obrolan tentang perasaan anak saat ia berada di dunia digital.",
+        "Evaluasi secara berkala pengaturan keamanan di perangkat, karena kebutuhan anak akan berubah seiring bertambahnya usia.",
+        "Gunakan konflik kecil tentang gawai sebagai latihan bersama untuk mengelola emosi, bukan sekadar situasi yang ingin dihindari.",
+        "Berbagi pengalaman Anda dengan orangtua lain dapat menguatkan praktik baik yang sudah berjalan di rumah.",
+        "Tetaplah terbuka pada masukan anak, karena mereka sering punya sudut pandang baru terkait teknologi yang bisa membantu orangtua.",
+        "Jadikan rumah sebagai tempat di mana teknologi dipakai dengan sadar, bukan sekadar kebiasaan otomatis tanpa pertimbangan."
+      ],
+      4: [
+        "Apresiasi diri Anda sebagai sosok yang sudah berusaha menjadi teladan dalam pengasuhan digital yang bijak.",
+        "Gunakan posisi ini untuk terus belajar, karena dunia digital sangat cepat berubah dan membutuhkan penyesuaian berkelanjutan.",
+        "Libatkan anak dalam menyusun ulang aturan gawai secara berkala, sehingga ia merasa dipercaya dan bertanggung jawab.",
+        "Bagikan cerita keberhasilan dan tantangan Anda kepada orangtua lain, sehingga praktik baik ini bisa menginspirasi lingkungan sekitar.",
+        "Tetap awasi sinyal kelelahan digital pada anak, seperti mudah marah, susah tidur, atau sulit lepas dari gawai.",
+        "Pertahankan kebiasaan berdialog dengan nada tenang ketika terjadi pelanggaran aturan, sehingga anak belajar menghadapi masalah tanpa takut.",
+        "Lengkapi pengawasan orangtua dengan fitur keamanan yang mutakhir dan disesuaikan dengan usia anak.",
+        "Pastikan ada ruang bagi anak untuk mengembangkan hobi di luar layar, seperti olahraga, seni, dan kegiatan sosial.",
+        "Jangan lupa menyisihkan waktu istirahat digital untuk diri sendiri, agar Anda dapat terus hadir secara utuh bagi anak.",
+        "Tetap fleksibel ketika situasi berubah, misalnya saat ada tugas sekolah online yang meningkat, namun tetap berpegang pada prinsip utama keseimbangan."
+      ]
+    };
+
+    // Tips khusus berdasarkan area yang lemah (per pertanyaan)
+    const areaTips = {
+      "Waktu & durasi": [
+        "Mulailah dengan membuat jadwal harian penggunaan gawai yang realistis dan disepakati bersama anak.",
+        "Gunakan timer atau alarm sebagai pengingat agar waktu gawai tidak terasa ‘tiba-tiba habis’ bagi anak."
+      ],
+      "Contoh dari orangtua": [
+        "Cobalah menetapkan momen tertentu di mana Anda juga meletakkan gawai, sehingga anak melihat contoh langsung.",
+        "Jika terpaksa menggunakan gawai di depan anak, jelaskan apa yang sedang Anda lakukan, misalnya untuk pekerjaan."
+      ],
+      "Zona tanpa gawai": [
+        "Pilih satu ruangan atau momen keluarga sebagai zona bebas gawai, dan berikan tanda visual seperti stiker atau papan kecil.",
+        "Gunakan momen makan tanpa gawai sebagai ajang berbagi cerita dan bersyukur bersama."
+      ],
+      "Gawai sebelum tidur": [
+        "Bantu anak membuat rutinitas santai sebelum tidur tanpa gawai, seperti membaca buku atau bercerita.",
+        "Simpan gawai di luar kamar tidur agar tidak menggoda anak untuk kembali menggunakannya."
+      ],
+      "Pendampingan konten": [
+        "Sediakan waktu khusus untuk duduk di samping anak ketika ia menonton atau bermain gim.",
+        "Tanyakan secara berkala apa video atau gim yang sedang disukai anak dan bagaimana perasaannya saat menggunakannya."
+      ],
+      "Fitur keamanan": [
+        "Luangkan beberapa menit untuk mempelajari fitur kontrol orangtua di perangkat yang paling sering digunakan anak.",
+        "Mulailah dengan satu fitur keamanan dulu, seperti filter konten atau pembatasan unduhan aplikasi."
+      ],
+      "Dialog & kesepakatan": [
+        "Saat membuat aturan, tanyakan pada anak aturan seperti apa yang menurutnya adil dan masuk akal.",
+        "Tuliskan hasil kesepakatan di kertas atau poster yang bisa dihias bersama, sehingga terasa sebagai proyek keluarga."
+      ],
+      "Disiplin positif & emosi": [
+        "Ketika anak marah karena gawai dibatasi, akui perasaannya sebelum membahas aturan yang disepakati.",
+        "Latih diri untuk tidak langsung bereaksi keras; tarik napas sejenak dan gunakan kalimat yang menenangkan."
+      ],
+      "Alternatif kegiatan": [
+        "Susun daftar kegiatan menyenangkan tanpa gawai yang bisa dipilih anak ketika waktu gawai selesai.",
+        "Libatkan diri Anda secara aktif dalam kegiatan alternatif tersebut agar anak merasa ditemani."
+      ],
+      "Obrolan tentang dunia digital": [
+        "Jadwalkan obrolan santai mingguan tentang pengalaman anak di dunia digital, tanpa menginterogasi.",
+        "Tanyakan apa yang paling ia sukai dan apa yang paling membuatnya tidak nyaman saat berada di internet."
+      ]
+    };
+
     let currentQuestionIndex = 0;
     let score = 0;
+    let weakAreas = [];
 
     const progressTextEl = document.getElementById("progressText");
     const progressFillEl = document.getElementById("progressFill");
@@ -585,12 +859,22 @@
     const copyBtn = document.getElementById("copyBtn");
     const copyStatusEl = document.getElementById("copyStatus");
 
+    const step1 = document.getElementById("step1");
+    const step2 = document.getElementById("step2");
+    const step3 = document.getElementById("step3");
+    const step4 = document.getElementById("step4");
+    const steps = [step1, step2, step3, step4];
+
     function updateProgress() {
       const total = questions.length;
       const current = currentQuestionIndex + 1;
       progressTextEl.textContent = `Pertanyaan ${current}/${total}`;
       const percent = (currentQuestionIndex / total) * 100;
       progressFillEl.style.width = `${percent}%`;
+    }
+
+    function resetLevelMeter() {
+      steps.forEach(step => step.classList.remove("active"));
     }
 
     function showQuestion() {
@@ -602,6 +886,7 @@
       resultVisualEl.innerHTML = "";
       shareContainerEl.style.display = "none";
       copyStatusEl.textContent = "";
+      resetLevelMeter();
 
       optionsEl.innerHTML = "";
       nextBtn.disabled = true;
@@ -613,7 +898,18 @@
       current.options.forEach((option, index) => {
         const btn = document.createElement("button");
         btn.className = "option-btn";
-        btn.textContent = option.text;
+
+        const badge = document.createElement("span");
+        badge.className = "option-badge";
+        badge.textContent = index === 0 ? "A" : index === 1 ? "B" : "C";
+
+        const textSpan = document.createElement("span");
+        textSpan.className = "option-text";
+        textSpan.textContent = option.text;
+
+        btn.appendChild(badge);
+        btn.appendChild(textSpan);
+
         btn.addEventListener("click", () => handleOptionClick(index));
         optionsEl.appendChild(btn);
       });
@@ -639,6 +935,8 @@
       const selectedOption = current.options[selectedIndex];
       if (selectedOption.correct) {
         score++;
+      } else {
+        weakAreas.push(current.area);
       }
 
       feedbackEl.textContent = selectedOption.feedback;
@@ -652,38 +950,48 @@
       questionIconEl.textContent = "🧩";
 
       const total = questions.length;
-      resultEl.textContent = `Kakak memilih jawaban paling bijak pada ${score} dari ${total} situasi.`;
+      resultEl.textContent = `Anda memilih jawaban yang paling mendukung pengasuhan digital sehat pada ${score} dari ${total} situasi. Terima kasih sudah mau merefleksikan pola di rumah.`;
 
-      // Tentukan level (4 kategori)
-      let title, body, emoji, levelClass;
+      let level, title, body, emoji, levelClass;
       const percentage = (score / total) * 100;
 
       if (percentage <= 25) {
+        level = 1;
         emoji = "🚨";
         levelClass = "level-1";
-        title = "Perlu Banyak Perbaikan";
+        title = "Perlu Banyak Perbaikan, tetapi Anda Sudah Memulai Langkah Penting";
         body =
-          "Tidak apa-apa, justru ini langkah awal yang bagus karena saya mau mengecek. Saat ini, gadget mungkin masih sangat dominan di rumah. Pelan-pelan, mulai dari satu perubahan kecil: misalnya meja makan bebas gadget atau batas waktu sebelum tidur.";
+          "Tidak apa-apa jika hasilnya masih rendah. Justru dengan mengisi refleksi ini, Anda sudah melakukan satu langkah besar: menyadari bahwa pola penggunaan gawai di rumah perlu ditata ulang. Anda layak diapresiasi karena berani melihat kondisi apa adanya dan siap belajar memperbaikinya.";
       } else if (percentage <= 50) {
+        level = 2;
         emoji = "🔍";
         levelClass = "level-2";
-        title = "Sedang Belajar dan Mencari Pola";
+        title = "Sedang Belajar dan Mencari Pola yang Lebih Sehat";
         body =
-          "Saya sudah punya beberapa kebiasaan baik, tapi masih naik-turun. Ini wajar di tengah kesibukan. Dengan sedikit lebih konsisten, melibatkan anak dalam membuat kesepakatan, dan memanfaatkan fitur keamanan, kualitas penggunaan gadget akan jauh lebih sehat.";
+          "Anda sudah memiliki beberapa kebiasaan baik dalam mengatur gawai, meskipun masih naik-turun. Ini adalah posisi yang wajar bagi banyak orangtua di era digital. Yang terpenting, Anda sudah berada di jalur yang tepat dan bersedia memperkuat hal-hal yang masih lemah. Usaha Anda patut dihargai.";
       } else if (percentage <= 80) {
+        level = 3;
         emoji = "🌱";
         levelClass = "level-3";
-        title = "Sudah Cukup Bijak, Tinggal Dikuatkan";
+        title = "Sudah Cukup Bijak, Tinggal Dikuatkan dan Dirapikan";
         body =
-          "Sebagian besar kebiasaan saya sudah mendukung penggunaan gadget yang sehat. Tinggal dikuatkan di area tertentu, misalnya contoh dari orangtua dan obrolan rutin tentang pengalaman digital anak.";
+          "Selamat, sebagian besar kebiasaan Anda sudah mendukung penggunaan gawai yang cukup seimbang bagi anak. Anda sudah melakukan banyak hal baik dan itu pantas untuk diapresiasi. Masih ada beberapa area yang bisa diperkuat, tetapi pondasi pengasuhan digital di keluarga Anda sudah cukup kokoh.";
       } else {
+        level = 4;
         emoji = "🌟";
         levelClass = "level-4";
-        title = "Oke Banget! Role Model Digital Parenting";
+        title = "Oke Banget! Anda Menjadi Role Model Pengasuhan Digital";
         body =
-          "Saya sudah cukup konsisten menerapkan disiplin positif dan pendampingan digital pada anak. Tantangan ke depan adalah tetap fleksibel dan terus belajar, karena dunia digital terus berubah.";
+          "Luar biasa. Hasil ini menunjukkan bahwa Anda sangat reflektif dan cukup konsisten dalam mengatur gawai di rumah. Anda layak disebut sebagai teladan dalam pengasuhan digital yang seimbang dan penuh kehangatan. Tetaplah rendah hati dan fleksibel, karena dunia digital akan terus berubah dan selalu ada hal baru untuk dipelajari.";
       }
 
+      // Level meter highlight
+      resetLevelMeter();
+      if (level >= 1 && level <= 4) {
+        steps[level - 1].classList.add("active");
+      }
+
+      // Kartu hasil visual
       const card = document.createElement("div");
       card.className = `result-card ${levelClass}`;
 
@@ -706,17 +1014,75 @@
       card.appendChild(emojiDiv);
       card.appendChild(textWrap);
 
+      resultVisualEl.innerHTML = "";
       resultVisualEl.appendChild(card);
 
+      // Tips utama berdasarkan level
+      const tipsTitle = document.createElement("div");
+      tipsTitle.className = "tips-section-title";
+      tipsTitle.textContent = "Tips langkah kecil yang bisa Anda coba berdasarkan hasil ini:";
+
+      const tipsUl = document.createElement("ul");
+      tipsUl.className = "tips-list";
+
+      const levelTipsList = levelTips[level] || [];
+      levelTipsList.forEach(tip => {
+        const li = document.createElement("li");
+        li.textContent = tip;
+        tipsUl.appendChild(li);
+      });
+
+      resultVisualEl.appendChild(tipsTitle);
+      resultVisualEl.appendChild(tipsUl);
+
+      // Tips spesifik berdasarkan area yang lemah
+      const uniqueWeakAreas = Array.from(new Set(weakAreas));
+      if (uniqueWeakAreas.length > 0) {
+        const areaSection = document.createElement("div");
+        areaSection.className = "area-section";
+
+        const areaTitle = document.createElement("div");
+        areaTitle.className = "area-section-title";
+        areaTitle.textContent = "Area yang masih bisa diperkuat berdasarkan jawaban Anda:";
+
+        areaSection.appendChild(areaTitle);
+
+        const areaUl = document.createElement("ul");
+        uniqueWeakAreas.forEach(areaName => {
+          const tipsForArea = areaTips[areaName] || [];
+          tipsForArea.forEach(tip => {
+            const li = document.createElement("li");
+            li.textContent = `${areaName}: ${tip}`;
+            areaUl.appendChild(li);
+          });
+        });
+
+        areaSection.appendChild(areaUl);
+        resultVisualEl.appendChild(areaSection);
+      }
+
       // Siapkan teks refleksi untuk dibagikan
+      const levelTipsText = levelTipsList.map(t => `- ${t}`).join("\n");
+      let areaText = "";
+      if (uniqueWeakAreas.length > 0) {
+        areaText = "\nArea yang perlu saya perkuat:\n";
+        uniqueWeakAreas.forEach(areaName => {
+          const tipsForArea = areaTips[areaName] || [];
+          tipsForArea.forEach(tip => {
+            areaText += `- (${areaName}) ${tip}\n`;
+          });
+        });
+      }
+
       const shareText =
-        `Refleksi penggunaan gadget di keluarga\n` +
+        `Refleksi penggunaan gawai di keluarga\n` +
         `---------------------------------------\n` +
         `Skor saya: ${score} dari ${total} situasi.\n` +
-        `Level: ${title}\n\n` +
-        `Catatan refleksi:\n${body}\n\n` +
-        `Langkah kecil yang ingin saya coba setelah ini:\n- ..................................................\n- ..................................................\n\n` +
-        `(*Teks ini bisa saya simpan atau bagikan ke pasangan/keluarga sebagai pengingat bersama.)`;
+        `Perkiraan level: ${title}\n\n` +
+        `Catatan refleksi utama:\n${body}\n\n` +
+        `Langkah kecil yang ingin saya coba (berdasarkan hasil kuis):\n${levelTipsText}\n` +
+        `${areaText}\n` +
+        `Saya ingin memilih 1–2 langkah di atas untuk mulai diterapkan minggu ini bersama keluarga.`;
 
       shareTextEl.value = shareText;
       shareContainerEl.style.display = "block";
@@ -745,10 +1111,9 @@
             copyStatusEl.textContent = "Teks refleksi berhasil disalin ✅";
           })
           .catch(() => {
-            copyStatusEl.textContent = "Gagal menyalin. Silakan blok dan salin manual.";
+            copyStatusEl.textContent = "Gagal menyalin. Silakan blok teks dan salin secara manual.";
           });
       } else {
-        // fallback sederhana
         shareTextEl.select();
         document.execCommand("copy");
         copyStatusEl.textContent = "Teks refleksi berhasil disalin ✅";
