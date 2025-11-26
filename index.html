@@ -31,7 +31,6 @@
       overflow: hidden;
     }
 
-    /* Background decorative shapes */
     .bubble {
       position: absolute;
       border-radius: 50%;
@@ -187,7 +186,7 @@
       text-align: left;
       font-size: 0.9rem;
       cursor: pointer;
-      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease, border-color 0.1s ease;
       display: flex;
       gap: 8px;
       align-items: flex-start;
@@ -207,20 +206,16 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
 
-    .option-btn.correct {
-      background: #e4f9ea;
-      border-color: #45b76a;
-    }
-
-    .option-btn.wrong {
-      background: #ffe8e8;
-      border-color: #ff6b6b;
-    }
-
     .option-btn.disabled {
-      opacity: 0.85;
+      opacity: 0.9;
       cursor: default;
       pointer-events: none;
+    }
+
+    .option-btn.selected {
+      background: #e3ecff;
+      border-color: #4f7cff;
+      box-shadow: 0 4px 10px rgba(79, 124, 255, 0.35);
     }
 
     #feedback {
@@ -397,7 +392,6 @@
       margin-top: 6px;
     }
 
-    /* Share section */
     .share-container {
       margin-top: 10px;
       padding-top: 8px;
@@ -453,7 +447,6 @@
 </head>
 <body>
   <div class="game-container">
-    <!-- Decorative bubbles -->
     <div class="bubble b1"></div>
     <div class="bubble b2"></div>
     <div class="bubble b3"></div>
@@ -466,11 +459,11 @@
         </div>
         <div class="hero-text">
           <h1>Sudah Bijak Belum Mengatur Gadget Anak?</h1>
-          <p>Refleksi singkat untuk melihat pola pengasuhan digital di keluarga Anda.</p>
+          <p>Refleksi singkat untuk melihat pola pengasuhan digital & screen time di keluarga Anda.</p>
         </div>
       </div>
       <p class="subtitle">
-        Pilih jawaban yang paling mendekati kebiasaan sehari-hari. Tidak ada jawaban “sempurna”, semua adalah proses belajar bersama. 💙
+        Pilih jawaban yang paling mendekati kebiasaan sehari-hari. Tidak ada jawaban “benar–salah”, yang ada adalah proses belajar dan bertumbuh bersama. 💙
       </p>
 
       <div id="progress">
@@ -508,7 +501,6 @@
 
       <div id="resultVisual" class="result-visual"></div>
 
-      <!-- Share result section -->
       <div id="shareContainer" class="share-container">
         <div class="share-label">Teks refleksi (bisa disalin ke WA/grup orangtua):</div>
         <textarea id="shareText" readonly></textarea>
@@ -516,7 +508,7 @@
         <div id="copyStatus"></div>
       </div>
 
-      <p class="tagline">Gadget hanyalah alat. Kehangatan dan kehadiran Anda tetap menjadi “aplikasi” terpenting bagi anak. 🌿</p>
+      <p class="tagline">Gadget hanyalah alat. Kehangatan, kehadiran, dan konsistensi Anda adalah “aplikasi” utama bagi anak. 🌿</p>
     </div>
   </div>
 
@@ -524,89 +516,89 @@
     const questions = [
       {
         icon: "⏰",
-        text: "Di rumah, apakah sudah ada aturan durasi harian penggunaan gawai untuk anak (misalnya 1–2 jam per hari)?",
+        text: "Di rumah, apakah sudah ada aturan durasi harian penggunaan gadget untuk anak (misalnya 1–2 jam per hari)?",
         area: "Waktu & durasi",
         options: [
           {
             text: "Belum ada aturan sama sekali, berjalan saja apa adanya.",
-            correct: false,
-            feedback: "Tanpa aturan dasar, anak cenderung memakai gawai berlebihan dan sulit dikendalikan."
+            score: 1,
+            feedback: "Tanpa batas waktu yang jelas, anak cenderung menggunakan gadget berlebihan dan sulit dikendalikan. Ini titik awal yang baik untuk mulai menyusun aturan sederhana."
           },
           {
             text: "Ada aturan, tetapi sering dilanggar baik oleh anak maupun orangtua.",
-            correct: false,
-            feedback: "Ini langkah awal yang baik, namun perlu konsistensi agar anak merasa aturannya sungguh penting."
+            score: 2,
+            feedback: "Ini langkah awal yang baik. Tantangannya adalah memperkuat konsistensi dan menjadi contoh dalam mengikuti kesepakatan yang dibuat."
           },
           {
             text: "Ada aturan jelas, disepakati bersama dan cukup konsisten dijalankan.",
-            correct: true,
-            feedback: "Bagus sekali. Aturan yang disepakati bersama dan dijalankan konsisten mengajarkan tanggung jawab pada anak."
+            score: 3,
+            feedback: "Bagus sekali. Aturan yang disepakati bersama dan dijalankan konsisten mengajarkan anak tentang tanggung jawab dan pengendalian diri."
           }
         ]
       },
       {
         icon: "👀",
-        text: "Saat mendampingi anak, seberapa sering Anda ikut asyik sendiri dengan gawai (scroll media sosial, chat, dll.)?",
+        text: "Saat mendampingi anak, seberapa sering Anda ikut asyik sendiri dengan gadget (scroll media sosial, chat, dll.)?",
         area: "Contoh dari orangtua",
         options: [
           {
             text: "Hampir selalu, sekalian mumpung bisa membalas pesan dan mengecek media sosial.",
-            correct: false,
-            feedback: "Anak belajar dari contoh. Jika orangtua sering sibuk dengan gawai, anak akan meniru pola yang sama."
+            score: 1,
+            feedback: "Anak belajar dari apa yang mereka lihat. Jika orangtua sering sibuk dengan gadget, anak cenderung meniru pola tersebut."
           },
           {
-            text: "Kadang-kadang masih sambil memegang gawai, tetapi Anda mencoba mengurangi.",
-            correct: false,
-            feedback: "Ini sudah bentuk usaha yang baik. Perlu sedikit penguatan agar anak merasa mendapat perhatian penuh."
+            text: "Kadang-kadang masih sambil memegang gadget, tetapi Anda mencoba mengurangi.",
+            score: 2,
+            feedback: "Ini sudah bentuk usaha yang baik. Dengan sedikit penguatan, anak akan semakin merasakan bahwa perhatian Anda hadir untuknya."
           },
           {
-            text: "Saat bersama anak (makan, mengobrol, bermain), gawai biasanya disimpan terlebih dahulu.",
-            correct: true,
-            feedback: "Luar biasa. Kehadiran penuh orangtua membuat anak merasa penting dan dihargai."
+            text: "Saat bersama anak (makan, mengobrol, bermain), gadget biasanya disimpan terlebih dahulu.",
+            score: 3,
+            feedback: "Luar biasa. Kehadiran penuh orangtua membuat anak merasa penting, dilihat, dan dihargai secara emosional."
           }
         ]
       },
       {
-        icon: "🍽️",
-        text: "Bagaimana aturan gawai saat makan bersama keluarga?",
-        area: "Zona tanpa gawai",
+        icon: "🚫",
+        text: "Bagaimana aturan gadget di zona tanpa gadget di rumah (misalnya kamar tidur, kamar mandi, dan ruang makan/meja makan keluarga)?",
+        area: "Zona tanpa gadget",
         options: [
           {
-            text: "Semua bebas menggunakan gawai selama makan, yang penting anak menghabiskan makanannya.",
-            correct: false,
-            feedback: "Makan sambil menatap layar membuat anak kurang peka terhadap rasa kenyang dan mengurangi kualitas obrolan keluarga."
+            text: "Belum ada zona khusus, gadget boleh dibawa ke kamar tidur, kamar mandi, dan ruang makan.",
+            score: 1,
+            feedback: "Tanpa zona tanpa gadget, gadget mudah masuk ke momen istirahat, kebersihan diri, dan waktu makan, sehingga keseimbangan aktivitas anak terganggu."
           },
           {
-            text: "Kadang dilarang, kadang dibiarkan tergantung suasana hati.",
-            correct: false,
-            feedback: "Aturan yang berubah-ubah membuat anak bingung. Konsistensi penting agar anak memahami batasan."
+            text: "Ada beberapa momen dilarang, tetapi sering kali longgar atau tergantung situasi.",
+            score: 2,
+            feedback: "Ini langkah awal yang baik. Dengan membuat zona tanpa gadget yang lebih konsisten, anak akan memiliki ruang untuk beristirahat dari layar."
           },
           {
-            text: "Meja makan adalah zona bebas gawai untuk semua anggota keluarga.",
-            correct: true,
-            feedback: "Pilihan yang sangat baik. Momen makan bisa menjadi ruang ngobrol dan saling terkoneksi tanpa gangguan layar."
+            text: "Kamar tidur, kamar mandi, dan ruang makan/meja makan adalah zona bebas gadget bagi seluruh anggota keluarga.",
+            score: 3,
+            feedback: "Sangat baik. Zona tanpa gadget membantu anak memiliki waktu istirahat berkualitas, fokus saat makan, dan ruang aman dari paparan layar berlebihan."
           }
         ]
       },
       {
         icon: "🌙",
-        text: "Bagaimana kebiasaan anak menjelang tidur terkait penggunaan gawai?",
-        area: "Gawai sebelum tidur",
+        text: "Bagaimana kebiasaan anak menjelang tidur terkait penggunaan gadget?",
+        area: "Gadget sebelum tidur",
         options: [
           {
-            text: "Sering menggunakan gawai sampai benar-benar mengantuk, baru gawai dimatikan.",
-            correct: false,
-            feedback: "Layar sebelum tidur membuat otak anak sulit beristirahat dan mengganggu kualitas tidurnya."
+            text: "Sering menggunakan gadget sampai benar-benar mengantuk, baru gadget dimatikan.",
+            score: 1,
+            feedback: "Layar sebelum tidur membuat otak anak sulit beristirahat dan dapat mengganggu kualitas tidur pada jangka panjang."
           },
           {
-            text: "Kadang berhenti menggunakan gawai sebelum tidur, tetapi belum konsisten.",
-            correct: false,
-            feedback: "Perubahan kecil sudah baik. Akan lebih optimal jika dibuat rutinitas yang tetap setiap malam."
+            text: "Kadang berhenti menggunakan gadget sebelum tidur, tetapi belum konsisten.",
+            score: 2,
+            feedback: "Perubahan kecil sudah baik. Rutinitas menjelang tidur tanpa gadget yang konsisten akan semakin membantu kesehatan fisik dan emosional anak."
           },
           {
-            text: "Ada aturan berhenti gawai minimal 30–60 menit sebelum tidur dengan rutinitas tenang (membaca buku, mengobrol).",
-            correct: true,
-            feedback: "Ini kebiasaan yang sangat mendukung pola tidur sehat bagi anak."
+            text: "Ada aturan berhenti gadget minimal 30–60 menit sebelum tidur dengan rutinitas tenang (membaca buku, mengobrol).",
+            score: 3,
+            feedback: "Kebiasaan ini sangat mendukung pola tidur sehat dan seimbang, selaras dengan prinsip pengaturan screen time yang Anda susun."
           }
         ]
       },
@@ -617,128 +609,128 @@
         options: [
           {
             text: "Jarang, yang penting anak diam dan tidak rewel.",
-            correct: false,
-            feedback: "Tanpa pendampingan, anak mudah terpapar konten yang tidak sesuai usia atau berisiko."
+            score: 1,
+            feedback: "Tanpa pendampingan, anak lebih berisiko terpapar konten yang tidak sesuai usia atau nilai keluarga."
           },
           {
             text: "Kadang mengecek jika teringat atau jika ada hal yang mencurigakan.",
-            correct: false,
-            feedback: "Ini adalah langkah awal yang baik, namun akan lebih aman jika pendampingan dilakukan lebih rutin."
+            score: 2,
+            feedback: "Ini langkah awal yang baik. Pendampingan yang lebih rutin akan membuat anak merasa lebih aman dan lebih mudah bercerita jika ada masalah."
           },
           {
             text: "Rutin mengecek dan sesekali ikut menonton atau bermain bersama anak.",
-            correct: true,
-            feedback: "Hebat. Pendampingan aktif membuat anak merasa aman dan terbuka saat menemukan hal yang mengganggu."
+            score: 3,
+            feedback: "Hebat. Pendampingan aktif seperti ini memperkuat relasi, sekaligus membangun literasi digital dan daya kritis anak."
           }
         ]
       },
       {
         icon: "🔐",
-        text: "Apakah Anda menggunakan fitur pengaturan keamanan (parental control, filter konten, batas waktu) di perangkat anak?",
+        text: "Apakah Anda menggunakan fitur pengaturan keamanan (parental control, filter konten, batas waktu) di perangkat gadget anak?",
         area: "Fitur keamanan",
         options: [
           {
             text: "Belum, karena terasa rumit atau belum sempat mempelajari.",
-            correct: false,
-            feedback: "Fitur ini sebenarnya dapat sangat membantu orangtua menjaga anak di dunia digital."
+            score: 1,
+            feedback: "Fitur ini sebenarnya dapat menjadi “teman bantu” orangtua untuk menjaga anak di ruang digital, selain pendampingan langsung."
           },
           {
             text: "Sudah mengetahui fitur tersebut, tetapi baru sebagian kecil yang digunakan.",
-            correct: false,
-            feedback: "Ini adalah langkah yang baik. Secara bertahap, fitur lain dapat ditambahkan sesuai kebutuhan anak."
+            score: 2,
+            feedback: "Ini adalah langkah yang baik. Secara bertahap, Anda dapat menambah fitur yang sesuai usia dan kebutuhan anak."
           },
           {
             text: "Ya, sudah mengaktifkan beberapa fitur sesuai usia dan kebutuhan anak.",
-            correct: true,
-            feedback: "Bagus sekali. Menggabungkan pengawasan orangtua dengan dukungan teknologi adalah kombinasi yang kuat."
+            score: 3,
+            feedback: "Bagus sekali. Menggabungkan pengawasan orangtua dengan pengaturan fitur keamanan adalah praktik pengasuhan digital yang kuat."
           }
         ]
       },
       {
         icon: "🗣️",
-        text: "Saat membuat aturan gawai, apakah anak diajak berdiskusi dan menyampaikan pendapatnya?",
+        text: "Saat membuat aturan gadget, apakah anak diajak berdiskusi dan menyampaikan pendapatnya?",
         area: "Dialog & kesepakatan",
         options: [
           {
             text: "Tidak, aturan dibuat sepihak demi praktis. Anak tinggal mengikuti.",
-            correct: false,
-            feedback: "Anak cenderung lebih mudah patuh jika merasa didengar dan dilibatkan."
+            score: 1,
+            feedback: "Tanpa ruang dialog, anak mungkin merasa aturan hanya sebagai larangan, bukan sebagai perlindungan untuk dirinya."
           },
           {
             text: "Kadang diajak berbicara, tetapi keputusan akhir tetap orangtua tanpa banyak dialog.",
-            correct: false,
-            feedback: "Ini sudah mengarah pada dialog. Sedikit lebih banyak ruang diskusi akan membuat anak merasa lebih dilibatkan."
+            score: 2,
+            feedback: "Ini sudah mengarah pada dialog. Menambah ruang diskusi akan membuat anak merasa lebih dilibatkan dan dihargai."
           },
           {
             text: "Ya, anak diajak berdiskusi, boleh memberi masukan, kemudian disepakati bersama.",
-            correct: true,
-            feedback: "Sangat baik. Ini memberi pesan bahwa aturan dibuat untuk kebaikan bersama, bukan sekadar larangan."
+            score: 3,
+            feedback: "Ini sangat sejalan dengan prinsip pengasuhan positif: aturan dilihat sebagai kesepakatan bersama, bukan hanya perintah."
           }
         ]
       },
       {
         icon: "💢",
-        text: "Jika anak marah atau tantrum saat diminta berhenti menggunakan gawai, apa yang biasanya Anda lakukan?",
+        text: "Jika anak marah atau tantrum saat diminta berhenti menggunakan gadget, apa yang biasanya Anda lakukan?",
         area: "Disiplin positif & emosi",
         options: [
           {
-            text: "Ikut marah, membentak, atau langsung mengambil paksa gawai.",
-            correct: false,
-            feedback: "Cara ini dapat membuat anak merasa tidak didengar dan memperburuk konflik."
+            text: "Ikut marah, membentak, atau langsung mengambil paksa gadget.",
+            score: 1,
+            feedback: "Cara ini wajar muncul saat lelah, tetapi dapat membuat anak merasa tidak didengar dan memperpanjang konflik."
           },
           {
             text: "Membiarkan dulu sampai tenang, baru diajak bicara setelahnya.",
-            correct: false,
-            feedback: "Lebih tenang memang, tetapi akan lebih efektif jika diikuti dengan penjelasan dan latihan mengelola emosi."
+            score: 2,
+            feedback: "Strategi ini lebih tenang. Akan lebih kuat jika disertai penjelasan dan latihan mengelola emosi bersama anak."
           },
           {
             text: "Mengakui perasaan anak (marah/sedih), menjelaskan alasannya, dan tetap konsisten dengan kesepakatan.",
-            correct: true,
-            feedback: "Ini contoh disiplin positif yang membantu anak belajar mengelola emosi dan memahami batasan."
+            score: 3,
+            feedback: "Ini contoh disiplin positif: tetap tegas pada aturan, tetapi hangat dan membantu anak belajar tentang emosi."
           }
         ]
       },
       {
         icon: "🎨",
-        text: "Seberapa sering Anda menawarkan kegiatan alternatif selain gawai (bermain, olahraga, mengobrol, membuat karya)?",
+        text: "Seberapa sering Anda menawarkan kegiatan alternatif selain gadget (bermain, olahraga, mengobrol, membuat karya)?",
         area: "Alternatif kegiatan",
         options: [
           {
-            text: "Jarang, karena semua orang di rumah juga sibuk dengan gawai masing-masing.",
-            correct: false,
-            feedback: "Tanpa alternatif, wajar jika anak menjadikan gawai sebagai satu-satunya sumber hiburan."
+            text: "Jarang, karena semua orang di rumah juga sibuk dengan gadget masing-masing.",
+            score: 1,
+            feedback: "Tanpa alternatif, wajar jika anak menjadikan gadget sebagai satu-satunya sumber hiburan dan regulasi emosi."
           },
           {
-            text: "Kadang menawarkan, tetapi jika anak menolak biasanya dibiarkan kembali ke gawai.",
-            correct: false,
-            feedback: "Ini adalah langkah awal. Jika alternatif dibuat lebih menarik dan rutin, anak lebih mudah tertarik."
+            text: "Kadang menawarkan, tetapi jika anak menolak biasanya dibiarkan kembali ke gadget.",
+            score: 2,
+            feedback: "Ini langkah awal yang baik. Jika kegiatan alternatif dibuat lebih menarik dan melibatkan Anda, anak lebih mudah tertarik."
           },
           {
             text: "Cukup sering menawarkan dan ikut terlibat (misalnya bermain bersama, membaca buku, memasak bersama).",
-            correct: true,
-            feedback: "Sangat baik. Pengalaman bersama orangtua adalah 'konten terbaik' untuk tumbuh kembang anak."
+            score: 3,
+            feedback: "Sangat baik. Pengalaman menyenangkan bersama orangtua adalah “konten” penting bagi perkembangan emosi dan sosial anak."
           }
         ]
       },
       {
         icon: "🧠",
-        text: "Apakah Anda rutin mengajak anak mengobrol tentang apa yang mereka tonton atau mainkan di gawai (hal yang disukai, yang membuat takut, bingung, dll.)?",
+        text: "Apakah Anda rutin mengajak anak mengobrol tentang apa yang mereka tonton atau mainkan di gadget (hal yang disukai, yang membuat takut, bingung, dll.)?",
         area: "Obrolan tentang dunia digital",
         options: [
           {
             text: "Hampir tidak pernah, yang penting anak tidak mengganggu.",
-            correct: false,
-            feedback: "Tanpa ruang obrolan, anak mungkin menyimpan kebingungan atau ketakutan sendirian."
+            score: 1,
+            feedback: "Tanpa ruang obrolan, anak mungkin menyimpan kebingungan, ketakutan, atau pengalaman tidak nyaman sendirian."
           },
           {
             text: "Sesekali menanyakan, biasanya jika ada berita viral atau kejadian tertentu.",
-            correct: false,
-            feedback: "Ini sudah baik. Akan lebih kuat jika menjadi obrolan rutin sehingga anak terbiasa bercerita."
+            score: 2,
+            feedback: "Ini sudah baik. Jika obrolan dibuat lebih rutin, anak akan terbiasa melihat Anda sebagai tempat bercerita yang aman."
           },
           {
             text: "Sering mengajak mengobrol santai tentang pengalaman digital anak dengan bahasa yang tidak menghakimi.",
-            correct: true,
-            feedback: "Hebat. Ini membantu anak merasa aman bercerita jika suatu hari mengalami hal yang tidak menyenangkan di dunia digital."
+            score: 3,
+            feedback: "Hebat. Ini sejalan dengan prinsip pendampingan digital yang hangat: anak merasa aman bercerita kapan pun ada masalah."
           }
         ]
       }
@@ -746,25 +738,25 @@
 
     const levelTips = {
       1: [
-        "Mulailah dengan satu aturan kecil yang mudah dilakukan, misalnya menulis durasi maksimal gawai per hari dan menempelkannya di kulkas.",
+        "Mulailah dengan satu aturan kecil yang mudah dilakukan, misalnya menulis durasi maksimal gadget per hari dan menempelkannya di kulkas.",
         "Ajak seluruh anggota keluarga, termasuk orang dewasa, untuk ikut mematuhi aturan yang sama agar anak merasa adil.",
-        "Pilih satu momen tetap setiap hari sebagai zona bebas gawai, misalnya saat makan malam atau 30 menit sebelum tidur.",
-        "Luangkan waktu 5–10 menit setiap hari hanya untuk mendengarkan cerita anak tanpa gawai di tangan Anda.",
+        "Pilih satu momen tetap setiap hari sebagai zona bebas gadget, misalnya saat makan malam atau 30 menit sebelum tidur.",
+        "Luangkan waktu 5–10 menit setiap hari hanya untuk mendengarkan cerita anak tanpa gadget di tangan Anda.",
         "Pelajari satu fitur keamanan sederhana terlebih dahulu, misalnya pengaturan batas waktu di ponsel atau tablet.",
-        "Jangan menyalahkan diri sendiri; lihat hasil kuis ini sebagai titik mulai, bukan vonis akhir.",
-        "Jika anak marah ketika aturan baru diterapkan, validasi perasaannya dengan kalimat seperti, “Ibu/Bapak tahu kamu kecewa, tetapi kita sedang belajar bersama.”",
+        "Jangan menyalahkan diri sendiri; lihat hasil refleksi ini sebagai titik mulai, bukan vonis akhir.",
+        "Jika anak marah ketika aturan baru diterapkan, validasi perasaannya dengan kalimat seperti, \"Ibu/Bapak tahu kamu kecewa, tetapi kita sedang belajar bersama.\"",
         "Cari satu aktivitas pengganti yang menyenangkan, seperti board game, menggambar, atau memasak sederhana bersama anak.",
         "Catat perubahan kecil yang berhasil Anda jalankan dalam seminggu, lalu rayakan keberhasilan tersebut bersama anak.",
         "Jika terasa sulit, Anda boleh meminta dukungan pasangan, keluarga, atau komunitas orangtua lain sehingga tidak merasa sendirian."
       ],
       2: [
         "Berikan apresiasi pada diri sendiri karena sudah mulai membangun aturan dan kebiasaan baik di rumah.",
-        "Identifikasi dua kebiasaan yang paling sering membuat aturan gawai bocor dan fokus memperbaikinya terlebih dahulu.",
-        "Libatkan anak dalam mengevaluasi aturan yang sudah ada dengan pertanyaan, “Apa yang sudah oke dan apa yang perlu kita ubah?”",
-        "Coba jadwalkan waktu tanpa gawai untuk seluruh keluarga di akhir pekan, misalnya satu jam bermain di luar rumah.",
-        "Perkuat konsistensi dengan membuat pengingat visual, seperti poster aturan gawai yang dibuat bersama anak.",
-        "Jelaskan alasan di balik aturan dengan bahasa yang sederhana, misalnya, “Kalau terlalu lama menatap layar, mata bisa cepat lelah.”",
-        "Latih diri Anda untuk meletakkan gawai ketika anak sedang bercerita, sehingga ia merasa lebih dihargai.",
+        "Identifikasi dua kebiasaan yang paling sering membuat aturan gadget bocor dan fokus memperbaikinya terlebih dahulu.",
+        "Libatkan anak dalam mengevaluasi aturan yang sudah ada dengan pertanyaan, \"Apa yang sudah oke dan apa yang perlu kita ubah?\"",
+        "Coba jadwalkan waktu tanpa gadget untuk seluruh keluarga di akhir pekan, misalnya satu jam bermain di luar rumah.",
+        "Perkuat konsistensi dengan membuat pengingat visual, seperti poster aturan gadget yang dibuat bersama anak.",
+        "Jelaskan alasan di balik aturan dengan bahasa yang sederhana, misalnya, \"Kalau terlalu lama menatap layar, mata bisa cepat lelah.\"",
+        "Latih diri Anda untuk meletakkan gadget ketika anak sedang bercerita, sehingga ia merasa lebih dihargai.",
         "Mulailah menambahkan satu fitur keamanan baru setiap beberapa minggu, sambil menjelaskan tujuannya kepada anak.",
         "Jika terjadi konflik, gunakan momen tersebut sebagai kesempatan belajar, bukan sekadar memarahi atau menyerah.",
         "Teruslah merayakan setiap kemajuan kecil, karena perubahan pola pengasuhan digital adalah proses jangka panjang."
@@ -772,11 +764,11 @@
       3: [
         "Akui bahwa Anda sudah melakukan banyak hal baik dalam pengasuhan digital dan itu patut diapresiasi.",
         "Gunakan hasil refleksi ini untuk memperhalus area tertentu, misalnya konsistensi jam tidur atau keterlibatan saat anak online.",
-        "Pertahankan kebiasaan mengajak anak berdiskusi sebelum membuat aturan baru, sehingga anak merasa menjadi bagian dari solusi.",
-        "Perluas variasi aktivitas tanpa gawai agar anak memiliki lebih banyak pilihan yang sama menyenangkannya.",
+        "Pertahankan kebiasaan mengajak anak berdiskusi sebelum membuat aturan gadget baru, sehingga anak merasa menjadi bagian dari solusi.",
+        "Perluas variasi aktivitas tanpa gadget agar anak memiliki lebih banyak pilihan yang sama menyenangkannya.",
         "Tingkatkan kualitas kehadiran Anda dengan sesekali menginisiasi obrolan tentang perasaan anak saat ia berada di dunia digital.",
         "Evaluasi secara berkala pengaturan keamanan di perangkat, karena kebutuhan anak akan berubah seiring bertambahnya usia.",
-        "Gunakan konflik kecil tentang gawai sebagai latihan bersama untuk mengelola emosi, bukan sekadar situasi yang ingin dihindari.",
+        "Gunakan konflik kecil tentang gadget sebagai latihan bersama untuk mengelola emosi, bukan sekadar situasi yang ingin dihindari.",
         "Berbagi pengalaman Anda dengan orangtua lain dapat menguatkan praktik baik yang sudah berjalan di rumah.",
         "Tetaplah terbuka pada masukan anak, karena mereka sering punya sudut pandang baru terkait teknologi yang bisa membantu orangtua.",
         "Jadikan rumah sebagai tempat di mana teknologi dipakai dengan sadar, bukan sekadar kebiasaan otomatis tanpa pertimbangan."
@@ -784,9 +776,9 @@
       4: [
         "Apresiasi diri Anda sebagai sosok yang sudah berusaha menjadi teladan dalam pengasuhan digital yang bijak.",
         "Gunakan posisi ini untuk terus belajar, karena dunia digital sangat cepat berubah dan membutuhkan penyesuaian berkelanjutan.",
-        "Libatkan anak dalam menyusun ulang aturan gawai secara berkala, sehingga ia merasa dipercaya dan bertanggung jawab.",
+        "Libatkan anak dalam menyusun ulang aturan gadget secara berkala, sehingga ia merasa dipercaya dan bertanggung jawab.",
         "Bagikan cerita keberhasilan dan tantangan Anda kepada orangtua lain, sehingga praktik baik ini bisa menginspirasi lingkungan sekitar.",
-        "Tetap awasi sinyal kelelahan digital pada anak, seperti mudah marah, susah tidur, atau sulit lepas dari gawai.",
+        "Tetap awasi sinyal kelelahan digital pada anak, seperti mudah marah, susah tidur, atau sulit lepas dari gadget.",
         "Pertahankan kebiasaan berdialog dengan nada tenang ketika terjadi pelanggaran aturan, sehingga anak belajar menghadapi masalah tanpa takut.",
         "Lengkapi pengawasan orangtua dengan fitur keamanan yang mutakhir dan disesuaikan dengan usia anak.",
         "Pastikan ada ruang bagi anak untuk mengembangkan hobi di luar layar, seperti olahraga, seni, dan kegiatan sosial.",
@@ -797,23 +789,23 @@
 
     const areaTips = {
       "Waktu & durasi": [
-        "Mulailah dengan membuat jadwal harian penggunaan gawai yang realistis dan disepakati bersama anak.",
-        "Gunakan timer atau alarm sebagai pengingat agar waktu gawai tidak terasa ‘tiba-tiba habis’ bagi anak."
+        "Mulailah dengan membuat jadwal harian penggunaan gadget yang realistis dan disepakati bersama anak.",
+        "Gunakan timer atau alarm sebagai pengingat agar waktu gadget tidak terasa 'tiba-tiba habis' bagi anak."
       ],
       "Contoh dari orangtua": [
-        "Cobalah menetapkan momen tertentu di mana Anda juga meletakkan gawai, sehingga anak melihat contoh langsung.",
-        "Jika terpaksa menggunakan gawai di depan anak, jelaskan apa yang sedang Anda lakukan, misalnya untuk pekerjaan."
+        "Cobalah menetapkan momen tertentu di mana Anda juga meletakkan gadget, sehingga anak melihat contoh langsung.",
+        "Jika terpaksa menggunakan gadget di depan anak, jelaskan apa yang sedang Anda lakukan, misalnya untuk pekerjaan."
       ],
-      "Zona tanpa gawai": [
-        "Pilih satu ruangan atau momen keluarga sebagai zona bebas gawai, dan berikan tanda visual seperti stiker atau papan kecil.",
-        "Gunakan momen makan tanpa gawai sebagai ajang berbagi cerita dan bersyukur bersama."
+      "Zona tanpa gadget": [
+        "Pilih kamar tidur, kamar mandi, dan ruang makan/meja makan sebagai zona tanpa gadget, dan berikan tanda visual sederhana.",
+        "Gunakan momen di zona tersebut sebagai waktu istirahat, makan, dan ngobrol tanpa gangguan layar."
       ],
-      "Gawai sebelum tidur": [
-        "Bantu anak membuat rutinitas santai sebelum tidur tanpa gawai, seperti membaca buku atau bercerita.",
-        "Simpan gawai di luar kamar tidur agar tidak menggoda anak untuk kembali menggunakannya."
+      "Gadget sebelum tidur": [
+        "Bantu anak membuat rutinitas santai sebelum tidur tanpa gadget, seperti membaca buku atau bercerita.",
+        "Simpan gadget di luar kamar tidur agar tidak menggoda anak untuk kembali menggunakannya."
       ],
       "Pendampingan konten": [
-        "Sediakan waktu khusus untuk duduk di samping anak ketika ia menonton atau bermain gim.",
+        "Sediakan waktu khusus untuk duduk di samping anak ketika ia menonton atau bermain gim di gadget.",
         "Tanyakan secara berkala apa video atau gim yang sedang disukai anak dan bagaimana perasaannya saat menggunakannya."
       ],
       "Fitur keamanan": [
@@ -821,25 +813,25 @@
         "Mulailah dengan satu fitur keamanan dulu, seperti filter konten atau pembatasan unduhan aplikasi."
       ],
       "Dialog & kesepakatan": [
-        "Saat membuat aturan, tanyakan pada anak aturan seperti apa yang menurutnya adil dan masuk akal.",
+        "Saat membuat aturan gadget, tanyakan pada anak aturan seperti apa yang menurutnya adil dan masuk akal.",
         "Tuliskan hasil kesepakatan di kertas atau poster yang bisa dihias bersama, sehingga terasa sebagai proyek keluarga."
       ],
       "Disiplin positif & emosi": [
-        "Ketika anak marah karena gawai dibatasi, akui perasaannya sebelum membahas aturan yang disepakati.",
+        "Ketika anak marah karena gadget dibatasi, akui perasaannya sebelum membahas aturan yang disepakati.",
         "Latih diri untuk tidak langsung bereaksi keras; tarik napas sejenak dan gunakan kalimat yang menenangkan."
       ],
       "Alternatif kegiatan": [
-        "Susun daftar kegiatan menyenangkan tanpa gawai yang bisa dipilih anak ketika waktu gawai selesai.",
+        "Susun daftar kegiatan menyenangkan tanpa gadget yang bisa dipilih anak ketika waktu gadget selesai.",
         "Libatkan diri Anda secara aktif dalam kegiatan alternatif tersebut agar anak merasa ditemani."
       ],
       "Obrolan tentang dunia digital": [
-        "Jadwalkan obrolan santai mingguan tentang pengalaman anak di dunia digital, tanpa menginterogasi.",
+        "Jadwalkan obrolan santai mingguan tentang pengalaman anak menggunakan gadget dan internet, tanpa menginterogasi.",
         "Tanyakan apa yang paling ia sukai dan apa yang paling membuatnya tidak nyaman saat berada di internet."
       ]
     };
 
     let currentQuestionIndex = 0;
-    let score = 0;
+    let totalScore = 0;
     let weakAreas = [];
     let currentShuffledOptions = [];
 
@@ -894,7 +886,6 @@
           ? "Lihat hasil refleksi"
           : "Pertanyaan berikutnya";
 
-      // salin dan acak opsi, supaya jawaban benar tidak selalu di posisi yang sama
       currentShuffledOptions = [...current.options];
       for (let i = currentShuffledOptions.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -932,19 +923,15 @@
 
       optionButtons.forEach((btn, index) => {
         btn.classList.add("disabled");
-        const isCorrect = currentShuffledOptions[index].correct;
-        if (isCorrect) {
-          btn.classList.add("correct");
-        }
-        if (index === selectedIndex && !isCorrect) {
-          btn.classList.add("wrong");
+        if (index === selectedIndex) {
+          btn.classList.add("selected");
         }
       });
 
       const selectedOption = currentShuffledOptions[selectedIndex];
-      if (selectedOption.correct) {
-        score++;
-      } else {
+      totalScore += selectedOption.score;
+
+      if (selectedOption.score === 1) {
         weakAreas.push(current.area);
       }
 
@@ -955,45 +942,50 @@
     function showResult() {
       optionsEl.innerHTML = "";
       feedbackEl.textContent = "";
-      questionTextEl.textContent = "Refleksi Penggunaan Gawai di Keluarga";
+      questionTextEl.textContent = "Refleksi Penggunaan Gadget di Keluarga";
       questionIconEl.textContent = "🧩";
 
-      const total = questions.length;
+      const totalQuestions = questions.length;
+      const minScore = totalQuestions * 1;
+      const maxScore = totalQuestions * 3;
+      const range = maxScore - minScore;
+      const normalizedPercent = range === 0
+        ? 0
+        : ((totalScore - minScore) / range) * 100;
+
       resultEl.textContent =
-        `Anda memilih jawaban yang paling mendukung pengasuhan digital sehat pada ${score} dari ${total} situasi. ` +
-        `Terima kasih sudah mau merefleksikan pola di rumah.`;
+        "Terima kasih sudah mengisi refleksi ini. Berdasarkan pola jawaban Anda, berikut gambaran posisi pengasuhan digital dan pengaturan screen time di keluarga saat ini.";
 
       let level, title, body, emoji, levelClass;
-      const percentage = (score / total) * 100;
 
-      if (percentage <= 25) {
+      if (normalizedPercent <= 25) {
         level = 1;
         emoji = "🚨";
         levelClass = "level-1";
         title = "Perlu Banyak Perbaikan, tetapi Anda Sudah Memulai Langkah Penting";
         body =
-          "Tidak apa-apa jika hasilnya masih rendah. Justru dengan mengisi refleksi ini, Anda sudah melakukan satu langkah besar: menyadari bahwa pola penggunaan gawai di rumah perlu ditata ulang. Anda layak diapresiasi karena berani melihat kondisi apa adanya dan siap belajar memperbaikinya.";
-      } else if (percentage <= 50) {
+          "Tidak apa-apa jika hasil refleksi menunjukkan masih banyak ruang perbaikan. Justru dengan mengisi permainan ini, Anda sudah melakukan satu langkah besar: menyadari bahwa pola penggunaan gadget di rumah perlu ditata ulang. Anda layak diapresiasi karena berani melihat kondisi apa adanya dan siap belajar memperbaikinya.";
+      } else if (normalizedPercent <= 50) {
         level = 2;
         emoji = "🔍";
         levelClass = "level-2";
         title = "Sedang Belajar dan Mencari Pola yang Lebih Sehat";
         body =
-          "Anda sudah memiliki beberapa kebiasaan baik dalam mengatur gawai, meskipun masih naik-turun. Ini adalah posisi yang wajar bagi banyak orangtua di era digital. Yang terpenting, Anda sudah berada di jalur yang tepat dan bersedia memperkuat hal-hal yang masih lemah. Usaha Anda patut dihargai.";
-      } else if (percentage <= 80) {
+          "Anda sudah memiliki beberapa kebiasaan baik dalam mengatur gadget, meskipun masih naik-turun. Ini adalah posisi yang wajar bagi banyak orangtua di era digital. Yang terpenting, Anda sudah berada di jalur yang tepat dan bersedia memperkuat area yang masih lemah. Usaha dan niat baik Anda patut dihargai.";
+      } else if (normalizedPercent <= 75) {
         level = 3;
         emoji = "🌱";
         levelClass = "level-3";
         title = "Sudah Cukup Bijak, Tinggal Dikuatkan dan Dirapikan";
         body =
-          "Selamat, sebagian besar kebiasaan Anda sudah mendukung penggunaan gawai yang cukup seimbang bagi anak. Anda sudah melakukan banyak hal baik dan itu pantas untuk diapresiasi. Masih ada beberapa area yang bisa diperkuat, tetapi pondasi pengasuhan digital di keluarga Anda sudah cukup kokoh.";
+          "Selamat, sebagian besar kebiasaan Anda sudah mendukung penggunaan gadget yang cukup seimbang bagi anak. Anda sudah melakukan banyak hal baik dan itu pantas untuk diapresiasi. Masih ada beberapa area yang bisa diperkuat, tetapi pondasi pengasuhan digital di keluarga Anda sudah cukup kokoh untuk terus dikembangkan.";
       } else {
         level = 4;
         emoji = "🌟";
         levelClass = "level-4";
         title = "Oke Banget! Anda Menjadi Role Model Pengasuhan Digital";
         body =
-          "Luar biasa. Hasil ini menunjukkan bahwa Anda sangat reflektif dan cukup konsisten dalam mengatur gawai di rumah. Anda layak disebut sebagai teladan dalam pengasuhan digital yang seimbang dan penuh kehangatan. Tetaplah rendah hati dan fleksibel, karena dunia digital akan terus berubah dan selalu ada hal baru untuk dipelajari.";
+          "Luar biasa. Hasil ini menunjukkan bahwa Anda sangat reflektif dan cukup konsisten dalam mengatur gadget di rumah. Anda layak disebut sebagai teladan dalam pengasuhan digital yang seimbang dan penuh kehangatan. Tetaplah rendah hati dan fleksibel, karena dunia digital akan terus berubah dan selalu ada hal baru untuk dipelajari bersama anak.";
       }
 
       resetLevelMeter();
@@ -1028,7 +1020,7 @@
 
       const tipsTitle = document.createElement("div");
       tipsTitle.className = "tips-section-title";
-      tipsTitle.textContent = "Tips langkah kecil yang bisa Anda coba berdasarkan hasil ini:";
+      tipsTitle.textContent = "Langkah kecil yang bisa Anda coba berdasarkan hasil refleksi ini:";
 
       const tipsUl = document.createElement("ul");
       tipsUl.className = "tips-list";
@@ -1050,7 +1042,7 @@
 
         const areaTitle = document.createElement("div");
         areaTitle.className = "area-section-title";
-        areaTitle.textContent = "Area yang masih bisa diperkuat berdasarkan jawaban Anda:";
+        areaTitle.textContent = "Beberapa area yang masih bisa diperkuat dari pola jawaban Anda:";
 
         areaSection.appendChild(areaTitle);
 
@@ -1081,12 +1073,11 @@
       }
 
       const shareText =
-        `Refleksi penggunaan gawai di keluarga\n` +
+        `Refleksi penggunaan gadget di keluarga\n` +
         `---------------------------------------\n` +
-        `Skor saya: ${score} dari ${total} situasi.\n` +
-        `Perkiraan level: ${title}\n\n` +
-        `Catatan refleksi utama:\n${body}\n\n` +
-        `Langkah kecil yang ingin saya coba (berdasarkan hasil kuis):\n${levelTipsText}\n` +
+        `Kategori pengasuhan digital saya saat ini: ${title}\n\n` +
+        `Gambaran singkat:\n${body}\n\n` +
+        `Langkah kecil yang ingin saya coba (berdasarkan hasil refleksi):\n${levelTipsText}\n` +
         `${areaText}\n` +
         `Saya ingin memilih 1–2 langkah di atas untuk mulai diterapkan minggu ini bersama keluarga.`;
 
